@@ -17,7 +17,7 @@ MODEL:
     ASPECT_RATIOS: [[2], [2, 3], [2, 3], [2, 3], [2, 3], [2], [2]]
     BOXES_PER_LOCATION: [4, 6, 6, 6, 6, 4, 4]
 INPUT:
-  IMAGE_SIZE: 300
+  IMAGE_SIZE: 512
 DATASETS:
   TRAIN: ("coco_2019_train",)
   TEST: ("coco_2019_val", )
