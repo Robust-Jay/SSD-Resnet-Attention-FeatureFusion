@@ -28,4 +28,4 @@ SOLVER:
   BATCH_SIZE: 32
   LR: 1e-3
 
-OUTPUT_DIR: 'outputs/test'
+OUTPUT_DIR: 'outputs/AC-R-50'

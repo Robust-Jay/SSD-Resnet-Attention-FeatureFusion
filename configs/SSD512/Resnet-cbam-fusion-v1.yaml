@@ -5,8 +5,8 @@ MODEL:
     OUT_CHANNELS: (512, 1024, 2048, 1024, 512, 256, 512)
   RESNET:
     SE: False
-    CBAM: False
-    FUSION: False
+    CBAM: True
+    FUSION: True
     BLOCKS: [3, 4, 6, 3]
     EXTRAS: [512, 256, 128, 64, 128]
   PRIORS:
@@ -28,4 +28,4 @@ SOLVER:
   BATCH_SIZE: 32
   LR: 1e-3
 
-OUTPUT_DIR: 'outputs/R-50'
+OUTPUT_DIR: 'outputs/R-50-cbam-fusion-v1'

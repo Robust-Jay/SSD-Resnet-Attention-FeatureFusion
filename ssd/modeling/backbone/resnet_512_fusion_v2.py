@@ -305,6 +305,7 @@ class ResNet(nn.Module):
 
         x = self.layer2(x)
 
+        features.append(x)
         if self.fusion:
             x1 = x
             x2 = self.layer3(x1)
@@ -320,8 +321,6 @@ class ResNet(nn.Module):
             y = torch.cat([x1, x2], dim=1)
             y = self.fu_conv3(y)
             features.append(y)
-        else:
-            features.append(x)
 
         x = self.layer3(x)
         features.append(x)
@@ -347,8 +346,8 @@ class ResNet(nn.Module):
         return tuple(features)
 
 
-@registry.BACKBONES.register('Resnet18_512')
-def Resnet18_512(cfg, pretrained=True):
+@registry.BACKBONES.register('Resnet18_512_v2')
+def Resnet18_512_v2(cfg, pretrained=True):
     model = ResNet(BasicBlock, blocks=cfg.MODEL.RESNET.BLOCKS, extras=cfg.MODEL.RESNET.EXTRAS,
                    se = cfg.MODEL.RESNET.SE, cbam = cfg.MODEL.RESNET.CBAM, fusion = cfg.MODEL.RESNET.FUSION)
     if pretrained:
@@ -359,8 +358,8 @@ def Resnet18_512(cfg, pretrained=True):
         model.load_state_dict(model_dict)
     return model
 
-@registry.BACKBONES.register('Resnet34_512')
-def Resnet34_512(cfg, pretrained=True):
+@registry.BACKBONES.register('Resnet34_512_v2')
+def Resnet34_512_v2(cfg, pretrained=True):
     model = ResNet(BasicBlock, blocks=cfg.MODEL.RESNET.BLOCKS, extras=cfg.MODEL.RESNET.EXTRAS,
                    se = cfg.MODEL.RESNET.SE, cbam = cfg.MODEL.RESNET.CBAM, fusion = cfg.MODEL.RESNET.FUSION)
     if pretrained:
@@ -371,8 +370,8 @@ def Resnet34_512(cfg, pretrained=True):
         model.load_state_dict(model_dict)
     return model
 
-@registry.BACKBONES.register('Resnet50_512')
-def Resnet50_512(cfg, pretrained=True):
+@registry.BACKBONES.register('Resnet50_512_v2')
+def Resnet50_512_v2(cfg, pretrained=True):
     model = ResNet(Bottleneck, blocks = cfg.MODEL.RESNET.BLOCKS, extras = cfg.MODEL.RESNET.EXTRAS,
                    se = cfg.MODEL.RESNET.SE, cbam = cfg.MODEL.RESNET.CBAM, fusion = cfg.MODEL.RESNET.FUSION)
     if pretrained:
@@ -383,8 +382,8 @@ def Resnet50_512(cfg, pretrained=True):
         model.load_state_dict(model_dict)
     return model
 
-@registry.BACKBONES.register('Resnet101_512')
-def Resnet101_512(cfg, pretrained=True):
+@registry.BACKBONES.register('Resnet101_512_v2')
+def Resnet101_512_v2(cfg, pretrained=True):
     model = ResNet(Bottleneck, blocks = cfg.MODEL.RESNET.BLOCKS, extras = cfg.MODEL.RESNET.EXTRAS,
                    se = cfg.MODEL.RESNET.SE, cbam = cfg.MODEL.RESNET.CBAM, fusion = cfg.MODEL.RESNET.FUSION)
     if pretrained:
@@ -395,8 +394,8 @@ def Resnet101_512(cfg, pretrained=True):
         model.load_state_dict(model_dict)
     return model
 
-@registry.BACKBONES.register('Resnet152_512')
-def Resnet152_512(cfg, pretrained=True):
+@registry.BACKBONES.register('Resnet152_512_v2')
+def Resnet152_512_v2(cfg, pretrained=True):
     model = ResNet(Bottleneck, blocks = cfg.MODEL.RESNET.BLOCKS, extras = cfg.MODEL.RESNET.EXTRAS,
                    se = cfg.MODEL.RESNET.SE, cbam = cfg.MODEL.RESNET.CBAM, fusion = cfg.MODEL.RESNET.FUSION)
     if pretrained:
@@ -407,8 +406,8 @@ def Resnet152_512(cfg, pretrained=True):
         model.load_state_dict(model_dict)
     return model
 
-@registry.BACKBONES.register('Resnet50_32x4d_512')
-def Resnet50_32x4d_512(cfg, pretrained=True):
+@registry.BACKBONES.register('Resnet50_32x4d_512_v2')
+def Resnet50_32x4d_512_v2(cfg, pretrained=True):
     model = ResNet(Bottleneck, blocks = cfg.MODEL.RESNET.BLOCKS, extras = cfg.MODEL.RESNET.EXTRAS,
                    groups = 32, width_per_group = 4, se = cfg.MODEL.RESNET.SE, cbam = cfg.MODEL.RESNET.CBAM, fusion = cfg.MODEL.RESNET.FUSION)
     if pretrained:
@@ -419,8 +418,8 @@ def Resnet50_32x4d_512(cfg, pretrained=True):
         model.load_state_dict(model_dict)
     return model
 
-@registry.BACKBONES.register('Resnet101_32x8d_512')
-def Resnet101_32x8d_512(cfg, pretrained=True):
+@registry.BACKBONES.register('Resnet101_32x8d_512_v2')
+def Resnet101_32x8d_512_v2(cfg, pretrained=True):
     model = ResNet(Bottleneck, blocks = cfg.MODEL.RESNET.BLOCKS, extras = cfg.MODEL.RESNET.EXTRAS,
                    groups = 32, width_per_group = 8, se = cfg.MODEL.RESNET.SE, cbam = cfg.MODEL.RESNET.CBAM, fusion = cfg.MODEL.RESNET.FUSION)
     if pretrained:
@@ -431,8 +430,8 @@ def Resnet101_32x8d_512(cfg, pretrained=True):
         model.load_state_dict(model_dict)
     return model
 
-@registry.BACKBONES.register('wide_resnet50_2_512')
-def wide_resnet50_2_512(cfg, pretrained=True):
+@registry.BACKBONES.register('wide_resnet50_2_512_v2')
+def wide_resnet50_2_512_v2(cfg, pretrained=True):
     model = ResNet(Bottleneck, blocks = cfg.MODEL.RESNET.BLOCKS, extras = cfg.MODEL.RESNET.EXTRAS,
                    width_per_group = 64 * 2, se = cfg.MODEL.RESNET.SE, cbam = cfg.MODEL.RESNET.CBAM, fusion = cfg.MODEL.RESNET.FUSION)
     if pretrained:
@@ -443,8 +442,8 @@ def wide_resnet50_2_512(cfg, pretrained=True):
         model.load_state_dict(model_dict)
     return model
 
-@registry.BACKBONES.register('wide_resnet101_2_512')
-def wide_resnet101_2_512(cfg, pretrained=True):
+@registry.BACKBONES.register('wide_resnet101_2_512_v2')
+def wide_resnet101_2_512_v2(cfg, pretrained=True):
     model = ResNet(Bottleneck, blocks = cfg.MODEL.RESNET.BLOCKS, extras = cfg.MODEL.RESNET.EXTRAS,
                    width_per_group = 64 * 2, se = cfg.MODEL.RESNET.SE, cbam = cfg.MODEL.RESNET.CBAM, fusion = cfg.MODEL.RESNET.FUSION)
     if pretrained:
