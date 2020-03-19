@@ -7,6 +7,7 @@ from ssd.modeling.box_head.box_predictor import make_box_predictor
 from ssd.utils import box_utils
 from .inference import PostProcessor
 from .loss import MultiBoxLoss
+from .loss import Focal_loss
 
 
 @registry.BOX_HEADS.register('SSDBoxHead')
