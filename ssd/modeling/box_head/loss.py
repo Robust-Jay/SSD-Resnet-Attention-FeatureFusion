@@ -41,38 +41,36 @@ class MultiBoxLoss(nn.Module):
         return smooth_l1_loss / num_pos, classification_loss / num_pos
 
 class FocalLoss(nn.Module):
-    def __init__(self,
-                 alpha=0.25,
-                 gamma=2,
-                 reduction='mean',):
+    def __init__(self, gamma=0, alpha=None, size_average=True):
         super(FocalLoss, self).__init__()
-        self.alpha = alpha
         self.gamma = gamma
-        self.reduction = reduction
-        self.crit = nn.BCEWithLogitsLoss(reduction='none')
+        self.alpha = alpha
+        if isinstance(alpha,(float,int,long)): self.alpha = torch.Tensor([alpha,1-alpha])
+        if isinstance(alpha,list): self.alpha = torch.Tensor(alpha)
+        self.size_average = size_average
 
-    def forward(self, logits, label):
-        '''
-        args:
-            logits: tensor of shape (N, ...)
-            label: tensor of shape(N, ...)
-        '''
+    def forward(self, input, target):
+        if input.dim()>2:
+            input = input.view(input.size(0),input.size(1),-1)  # N,C,H,W => N,C,H*W
+            input = input.transpose(1,2)    # N,C,H*W => N,H*W,C
+            input = input.contiguous().view(-1,input.size(2))   # N,H*W,C => N*H*W,C
+        target = target.view(-1,1)
 
-        # compute loss
-        logits = logits.float() # use fp32 if logits is fp16
-        with torch.no_grad():
-            alpha = torch.empty_like(logits).fill_(1 - self.alpha)
-            alpha[label == 1] = self.alpha
+        logpt = F.log_softmax(input)
+        logpt = logpt.gather(1,target)
+        logpt = logpt.view(-1)
+        pt = logpt.data.exp()
 
-        probs = torch.sigmoid(logits)
-        pt = torch.where(label == 1, probs, 1 - probs)
-        ce_loss = self.crit(logits, label.double())
-        loss = (alpha * torch.pow(1 - pt, self.gamma) * ce_loss).sum(dim=1)
-        if self.reduction == 'mean':
-            loss = loss.mean()
-        if self.reduction == 'sum':
-            loss = loss.sum()
-        return loss
+        if self.alpha is not None:
+            if self.alpha.type()!=input.data.type():
+                self.alpha = self.alpha.type_as(input.data)
+            at = self.alpha.gather(0,target.data.view(-1))
+            logpt = logpt * at
+
+        loss = -1 * (1-pt)**self.gamma * logpt
+        if self.size_average: return loss.mean()
+        else: return loss.sum()
+
 
 class Focal_loss(nn.Module):
     def __init__(self, neg_pos_ratio):
@@ -100,7 +98,7 @@ class Focal_loss(nn.Module):
             mask = box_utils.hard_negative_mining(loss, labels, self.neg_pos_ratio)
 
         confidence = confidence[mask, :]
-        l = FocalLoss(reduction='sum')
+        l = FocalLoss(size_average = False)
         classification_loss = l(confidence.view(-1, num_classes), labels[mask])
 
         pos_mask = labels > 0
