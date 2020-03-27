@@ -327,8 +327,8 @@ class ResNet(nn.Module):
 
 
 
-@registry.BACKBONES.register('R50_512_ff')
-def R50_512_ff(cfg, pretrained=True):
+@registry.BACKBONES.register('R50_300_ff')
+def R50_300_ff(cfg, pretrained=True):
     model = ResNet(Bottleneck, blocks = cfg.MODEL.RESNET.BLOCKS, extras = cfg.MODEL.RESNET.EXTRAS,
                    se = cfg.MODEL.RESNET.SE, cbam = cfg.MODEL.RESNET.CBAM, fusion = cfg.MODEL.RESNET.FUSION)
     if pretrained:
@@ -339,8 +339,8 @@ def R50_512_ff(cfg, pretrained=True):
         model.load_state_dict(model_dict)
     return model
 
-@registry.BACKBONES.register('R101_512_ff')
-def R101_512_ff(cfg, pretrained=True):
+@registry.BACKBONES.register('R101_300_ff')
+def R101_300_ff(cfg, pretrained=True):
     model = ResNet(Bottleneck, blocks = cfg.MODEL.RESNET.BLOCKS, extras = cfg.MODEL.RESNET.EXTRAS,
                    se = cfg.MODEL.RESNET.SE, cbam = cfg.MODEL.RESNET.CBAM, fusion = cfg.MODEL.RESNET.FUSION)
     if pretrained:
