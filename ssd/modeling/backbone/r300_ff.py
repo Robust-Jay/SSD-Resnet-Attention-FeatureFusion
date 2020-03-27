@@ -116,9 +116,6 @@ class BasicBlock(nn.Module):
         self.bn2 = norm_layer(planes)
         if self.se:
             self.se_layer = SELayer(planes, reduction)
-        if self.cbam:
-            self.ca = Channel_Attention(planes, reduction)
-            self.sa = Spatial_Attention()
         self.downsample = downsample
         self.stride = stride
 
@@ -135,10 +132,6 @@ class BasicBlock(nn.Module):
         if self.se:
             out = self.se_layer(out)
 
-        if self.cbam:
-            out = self.ca(out)
-            out = self.sa(out)
-
         if self.downsample is not None:
             identity = self.downsample(x)
 
@@ -152,14 +145,13 @@ class Bottleneck(nn.Module):
     expansion = 4
 
     def __init__(self, inplanes, planes, stride = 1, downsample = None, groups = 1,
-                 base_width = 64, dilation = 1, norm_layer = None, reduction = 16, se = False, cbam = False):
+                 base_width = 64, dilation = 1, norm_layer = None, reduction = 16, se = False):
         super(Bottleneck, self).__init__()
         if norm_layer is None:
             norm_layer = nn.BatchNorm2d
         width = int(planes * (base_width / 64.)) * groups
 
         self.se = se
-        self.cbam = cbam
         self.conv1 = conv1x1(inplanes, width)
         # Both self.conv2 and self.downsample layers downsample the input when stride != 1
         self.bn1 = norm_layer(width)
@@ -169,9 +161,6 @@ class Bottleneck(nn.Module):
         self.bn3 = norm_layer(planes * self.expansion)
         if self.se:
             self.se_layer = SELayer(planes * self.expansion, reduction)
-        if self.cbam:
-            self.ca = Channel_Attention(planes * self.expansion, reduction)
-            self.sa = Spatial_Attention()
         self.relu = nn.ReLU(inplace = True)
         self.downsample = downsample
         self.stride = stride
@@ -193,10 +182,6 @@ class Bottleneck(nn.Module):
         if self.se:
             out = self.se_layer(out)
 
-        if self.cbam:
-            out = self.ca(out)
-            out = self.sa(out)
-
         if self.downsample is not None:
             identity = self.downsample(x)
 
@@ -206,36 +191,10 @@ class Bottleneck(nn.Module):
         return out
 
 
-class ff(nn.Module):
-    def __init__(self, planes1, planes2):
-        super(ff, self).__init__()
-        self.fu_conv1 = nn.Conv2d(planes1, planes1, kernel_size=3, stride=1, padding=1)
-        self.fu_bn1 = nn.BatchNorm2d(planes1)
-        self.fu_relu = nn.ReLU(inplace=True)
-
-        self.fu_deconv = nn.ConvTranspose2d(planes2, planes1, kernel_size=3, stride=2,
-                                            padding=1, output_padding=1)
-        self.fu_conv2 = nn.Conv2d(planes1, planes1, kernel_size=3, stride=1, padding=1)
-        self.fu_bn2 = nn.BatchNorm2d(planes1)
-        self.fu_conv3 = nn.Conv2d(planes2, planes1, kernel_size=3, stride=1, padding=1)
-
-    def forward(self, x1, x2):
-        x1 = self.fu_conv1(x1)
-        x1 = self.fu_bn1(x1)
-        x1 = self.fu_relu(x1)
-
-        x2 = self.fu_deconv(x2)
-        x2 = self.fu_conv2(x2)
-        x2 = self.fu_bn2(x2)
-        x2 = self.fu_relu(x2)
-
-        return self.fu_conv3(torch.cat([x1, x2], dim=1))
-
-
 class ResNet(nn.Module):
     def __init__(self, block = None, blocks = None, zero_init_residual = False,
                  groups=1, width_per_group=64, replace_stride_with_dilation = None,
-                 norm_layer=None, extras = None, se = False, cbam = False, fusion = False):
+                 norm_layer=None, extras = None, se = False):
         super().__init__()
         if norm_layer is None:
             norm_layer = nn.BatchNorm2d
@@ -254,8 +213,6 @@ class ResNet(nn.Module):
             raise ValueError("replace_stride_with_dilation should be None "
                              "or a 3-element tuple, got {}".format(replace_stride_with_dilation))
         self.se = se
-        self.cbam = cbam
-        self.fusion = fusion
         self.groups = groups
         self.base_width = width_per_group
         self.conv1 = nn.Conv2d(3, self.inplanes, kernel_size = 7, stride = 2, padding = 3, bias = False)
@@ -265,12 +222,19 @@ class ResNet(nn.Module):
         self.layer1 = self._make_layer(block, 64, self.blocks[0])
         self.layer2 = self._make_layer(block, 128, self.blocks[1], stride = 2,
                                        dilate = replace_stride_with_dilation[0])
-        if self.fusion:
-            self.ff = ff(512, 1024)
+        self.conv2 = nn.Conv2d(512, 256, 1)
         self.layer3 = self._make_layer(block, 256, self.blocks[2], stride = 2,
                                        dilate = replace_stride_with_dilation[1])
+        self.conv3 = nn.Conv2d(1024, 256, 1)
+        self.bi1 = nn.UpsamplingBilinear2d(scale_factor=2)
         self.layer4 = self._make_layer(block, 512, self.blocks[3], stride = 2,
                                        dilate = replace_stride_with_dilation[2])
+
+        self.conv4 = nn.Conv2d(2048, 256, 1)
+        self.bi2 = nn.UpsamplingBilinear2d(size = (38, 38))
+
+        self.conv5 = nn.Conv2d(768, 512, 1)
+        self.bn2 = nn.BatchNorm2d(512)
         self.extra_layers = nn.Sequential(* self._add_extras(block, extras))
 
     def _make_layer(self, block, planes, blocks, stride = 1, dilate = False):
@@ -288,35 +252,26 @@ class ResNet(nn.Module):
 
         layers = []
         layers.append(block(self.inplanes, planes, stride, downsample, self.groups,
-                            self.base_width, previous_dilation, norm_layer, se = self.se, cbam = self.cbam))
+                            self.base_width, previous_dilation, norm_layer, se = self.se))
         self.inplanes = planes * block.expansion
         for _ in range(1, blocks):
             layers.append(block(self.inplanes, planes, groups=self.groups,
                                 base_width=self.base_width, dilation=self.dilation,
-                                norm_layer=norm_layer, se = self.se, cbam = self.cbam))
+                                norm_layer=norm_layer, se = self.se))
 
         return nn.Sequential(*layers)
 
-    def _add_fusion_layer(self, planes1, planes2):
-        self.fu_conv1 = nn.Conv2d(planes1, planes1, kernel_size=3, stride=1, padding=1)
-        self.fu_bn1 = nn.BatchNorm2d(planes1)
-        self.fu_relu1 = nn.ReLU(inplace=True)
-
-        self.fu_deconv = nn.ConvTranspose2d(planes2, planes1, kernel_size=3, stride=2,
-                                         padding=1, output_padding=1)
-        self.fu_conv2 = nn.Conv2d(planes1, planes1, kernel_size=3, stride=1, padding=1)
-        self.fu_bn2 = nn.BatchNorm2d(planes1)
-        self.fu_relu2 = nn.ReLU(inplace=True)
-
-        self.fu_conv3 = nn.Conv2d(planes2, planes1, kernel_size = 3, stride = 1, padding = 1)
 
     def _add_extras(self, block, extras):
+        self.inplanes = 512
         layers = []
-        layers += self._make_layer(block, extras[1], 2, stride=2)
-        layers += self._make_layer(block, extras[2], 2, stride=2)
-        layers += self._make_layer(block, extras[3], 2, stride=2)
-        in_channels = extras[3] * block.expansion
-        layers += [nn.Conv2d(in_channels, extras[4] * block.expansion, kernel_size=2)]
+        layers += self._make_layer(block, extras[0], 1)
+        layers += self._make_layer(block, extras[1], 1, stride=2)
+        layers += self._make_layer(block, extras[2], 1, stride=2)
+        layers += self._make_layer(block, extras[3], 1, stride=2)
+        layers += self._make_layer(block, extras[4], 1, stride=2)
+        layers += self._make_layer(block, extras[5], 1, stride=2)
+        layers += self._make_layer(block, extras[6], 1, stride=2)
         return layers
 
     def forward(self, x):
@@ -330,76 +285,50 @@ class ResNet(nn.Module):
         x = self.layer1(x)
 
         x = self.layer2(x)
+        features.append(self.conv2(x))
 
-        x_ = self.layer3(x)
-        if self.fusion:
-            # x1 = x
-            # x2 = self.layer3(x1)
-            # x1 = self.fu_conv1(x1)
-            # x1 = self.fu_bn1(x1)
-            # x1 = self.fu_relu1(x1)
-            #
-            # x2 = self.fu_deconv(x2)
-            # x2 = self.fu_conv2(x2)
-            # x2 = self.fu_bn2(x2)
-            # x2 = self.fu_relu2(x2)
-            #
-            # y = torch.cat([x1, x2], dim=1)
-            # y = self.fu_conv3(y)
-            # features.append(y)
-            features.append(self.ff(x, x_))
-        else:
-            features.append(x)
+        x = self.layer3(x)
+        features.append(self.bi1(self.conv3(x)))
 
-        features.append(x_)
+        x = self.layer4(x)
+        features.append(self.bi2(self.conv4(x)))
 
-        x = self.layer4(x_)
-        features.append(x)
+        x = torch.cat((features), 1)
+
+        x = self.conv5(x)
+        x = self.bn2(x)
+
+        feature_map = []
 
         x = self.extra_layers[0](x)
+        feature_map.append(x)
+
         x = self.extra_layers[1](x)
-        features.append(x)
+        feature_map.append(x)
 
         x = self.extra_layers[2](x)
+        feature_map.append(x)
+
         x = self.extra_layers[3](x)
-        features.append(x)
+        feature_map.append(x)
 
         x = self.extra_layers[4](x)
+        feature_map.append(x)
+
         x = self.extra_layers[5](x)
-        features.append(x)
+        #feature_map.append(x)
 
         x = self.extra_layers[6](x)
-        features.append(x)
+        feature_map.append(x)
 
-        return tuple(features)
+        return tuple(feature_map)
 
 
-@registry.BACKBONES.register('Resnet18_512')
-def Resnet18_512(cfg, pretrained=True):
-    model = ResNet(BasicBlock, blocks=cfg.MODEL.RESNET.BLOCKS, extras=cfg.MODEL.RESNET.EXTRAS,
-                   se = cfg.MODEL.RESNET.SE, cbam = cfg.MODEL.RESNET.CBAM, fusion = cfg.MODEL.RESNET.FUSION)
-    if pretrained:
-        pretrained_dict = load_state_dict_from_url(model_urls['resnet18'])
-        model_dict = model.state_dict()
-        pretrained_dict = {k: v for k, v in pretrained_dict.items() if k in model_dict}
-        model_dict.update(pretrained_dict)
-        model.load_state_dict(model_dict)
-    return model
 
-@registry.BACKBONES.register('Resnet34_512')
-def Resnet34_512(cfg, pretrained=True):
-    model = ResNet(BasicBlock, blocks=cfg.MODEL.RESNET.BLOCKS, extras=cfg.MODEL.RESNET.EXTRAS,
-                   se = cfg.MODEL.RESNET.SE, cbam = cfg.MODEL.RESNET.CBAM, fusion = cfg.MODEL.RESNET.FUSION)
-    if pretrained:
-        pretrained_dict = load_state_dict_from_url(model_urls['resnet34'])
-        model_dict = model.state_dict()
-        pretrained_dict = {k: v for k, v in pretrained_dict.items() if k in model_dict}
-        model_dict.update(pretrained_dict)
-        model.load_state_dict(model_dict)
-    return model
 
-@registry.BACKBONES.register('Resnet50_512')
-def Resnet50_512(cfg, pretrained=True):
+
+@registry.BACKBONES.register('R50_512_ff')
+def R50_512_ff(cfg, pretrained=True):
     model = ResNet(Bottleneck, blocks = cfg.MODEL.RESNET.BLOCKS, extras = cfg.MODEL.RESNET.EXTRAS,
                    se = cfg.MODEL.RESNET.SE, cbam = cfg.MODEL.RESNET.CBAM, fusion = cfg.MODEL.RESNET.FUSION)
     if pretrained:
@@ -410,8 +339,8 @@ def Resnet50_512(cfg, pretrained=True):
         model.load_state_dict(model_dict)
     return model
 
-@registry.BACKBONES.register('Resnet101_512')
-def Resnet101_512(cfg, pretrained=True):
+@registry.BACKBONES.register('R101_512_ff')
+def R101_512_ff(cfg, pretrained=True):
     model = ResNet(Bottleneck, blocks = cfg.MODEL.RESNET.BLOCKS, extras = cfg.MODEL.RESNET.EXTRAS,
                    se = cfg.MODEL.RESNET.SE, cbam = cfg.MODEL.RESNET.CBAM, fusion = cfg.MODEL.RESNET.FUSION)
     if pretrained:
@@ -422,74 +351,15 @@ def Resnet101_512(cfg, pretrained=True):
         model.load_state_dict(model_dict)
     return model
 
-@registry.BACKBONES.register('Resnet152_512')
-def Resnet152_512(cfg, pretrained=True):
-    model = ResNet(Bottleneck, blocks = cfg.MODEL.RESNET.BLOCKS, extras = cfg.MODEL.RESNET.EXTRAS,
-                   se = cfg.MODEL.RESNET.SE, cbam = cfg.MODEL.RESNET.CBAM, fusion = cfg.MODEL.RESNET.FUSION)
-    if pretrained:
-        pretrained_dict = load_state_dict_from_url(model_urls['resnet152'])
-        model_dict = model.state_dict()
-        pretrained_dict = {k: v for k, v in pretrained_dict.items() if k in model_dict}
-        model_dict.update(pretrained_dict)
-        model.load_state_dict(model_dict)
-    return model
-
-@registry.BACKBONES.register('Resnet50_32x4d_512')
-def Resnet50_32x4d_512(cfg, pretrained=True):
-    model = ResNet(Bottleneck, blocks = cfg.MODEL.RESNET.BLOCKS, extras = cfg.MODEL.RESNET.EXTRAS,
-                   groups = 32, width_per_group = 4, se = cfg.MODEL.RESNET.SE, cbam = cfg.MODEL.RESNET.CBAM, fusion = cfg.MODEL.RESNET.FUSION)
-    if pretrained:
-        pretrained_dict = load_state_dict_from_url(model_urls['resnext50_32x4d'])
-        model_dict = model.state_dict()
-        pretrained_dict = {k: v for k, v in pretrained_dict.items() if k in model_dict}
-        model_dict.update(pretrained_dict)
-        model.load_state_dict(model_dict)
-    return model
-
-@registry.BACKBONES.register('Resnet101_32x8d_512')
-def Resnet101_32x8d_512(cfg, pretrained=True):
-    model = ResNet(Bottleneck, blocks = cfg.MODEL.RESNET.BLOCKS, extras = cfg.MODEL.RESNET.EXTRAS,
-                   groups = 32, width_per_group = 8, se = cfg.MODEL.RESNET.SE, cbam = cfg.MODEL.RESNET.CBAM, fusion = cfg.MODEL.RESNET.FUSION)
-    if pretrained:
-        pretrained_dict = load_state_dict_from_url(model_urls['resnext101_32x8d'])
-        model_dict = model.state_dict()
-        pretrained_dict = {k: v for k, v in pretrained_dict.items() if k in model_dict}
-        model_dict.update(pretrained_dict)
-        model.load_state_dict(model_dict)
-    return model
-
-@registry.BACKBONES.register('wide_resnet50_2_512')
-def wide_resnet50_2_512(cfg, pretrained=True):
-    model = ResNet(Bottleneck, blocks = cfg.MODEL.RESNET.BLOCKS, extras = cfg.MODEL.RESNET.EXTRAS,
-                   width_per_group = 64 * 2, se = cfg.MODEL.RESNET.SE, cbam = cfg.MODEL.RESNET.CBAM, fusion = cfg.MODEL.RESNET.FUSION)
-    if pretrained:
-        pretrained_dict = load_state_dict_from_url(model_urls['wide_resnet50_2'])
-        model_dict = model.state_dict()
-        pretrained_dict = {k: v for k, v in pretrained_dict.items() if k in model_dict}
-        model_dict.update(pretrained_dict)
-        model.load_state_dict(model_dict)
-    return model
-
-@registry.BACKBONES.register('wide_resnet101_2_512')
-def wide_resnet101_2_512(cfg, pretrained=True):
-    model = ResNet(Bottleneck, blocks = cfg.MODEL.RESNET.BLOCKS, extras = cfg.MODEL.RESNET.EXTRAS,
-                   width_per_group = 64 * 2, se = cfg.MODEL.RESNET.SE, cbam = cfg.MODEL.RESNET.CBAM, fusion = cfg.MODEL.RESNET.FUSION)
-    if pretrained:
-        pretrained_dict = load_state_dict_from_url(model_urls['wide_resnet101_2'])
-        model_dict = model.state_dict()
-        pretrained_dict = {k: v for k, v in pretrained_dict.items() if k in model_dict}
-        model_dict.update(pretrained_dict)
-        model.load_state_dict(model_dict)
-    return model
 
 if __name__ == '__main__':
     import torch
     from torchsummary import summary
     from thop.profile import profile
-    resnet = ResNet(block = Bottleneck, blocks = [3, 4, 6, 3], extras = [512, 256, 128, 64, 128], se = False, cbam = False, fusion = False)
-    summary(resnet, (3, 512, 512))
-    print(resnet)
-    # device = torch.device('cpu')
-    # inputs = torch.randn((1, 3, 512, 512)).to(device)
-    # total_ops, total_params = profile(resnet, (inputs,), verbose=False)
-    # print("%.2f | %.2f" % (total_params / (1000 ** 2), total_ops / (1000 ** 3)))
+    resnet = ResNet(block = Bottleneck, blocks = [3, 4, 23, 3], extras = [128, 256, 512, 256, 128, 64, 64], se = False)
+    # summary(resnet, (3, 512, 512))
+    #     # print(resnet)
+    device = torch.device('cpu')
+    inputs = torch.randn((1, 3, 300, 300)).to(device)
+    total_ops, total_params = profile(resnet, (inputs,), verbose=False)
+    print("%.2f | %.2f" % (total_params / (1000 ** 2), total_ops / (1000 ** 3)))

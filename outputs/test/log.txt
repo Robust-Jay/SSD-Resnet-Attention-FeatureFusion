@@ -1,0 +1,2184 @@
+2020-03-22 09:16:42,909 SSD INFO: Using 1 GPUs
+2020-03-22 09:16:42,910 SSD INFO: Namespace(config_file='configs/SSD300/Resnet.yaml', distributed=False, eval_step=1000, local_rank=0, log_step=10, num_gpus=1, opts=[], save_step=6000, skip_test=False, use_tensorboard=False)
+2020-03-22 09:16:42,910 SSD INFO: Loaded configuration file configs/SSD300/Resnet.yaml
+2020-03-22 09:16:42,910 SSD INFO: 
+MODEL:
+  NUM_CLASSES: 5
+  BACKBONE:
+    NAME: "Resnet50"
+    OUT_CHANNELS: (512, 1024, 2048, 1024, 512, 256)
+  RESNET:
+    SE: False
+    CBAM: False
+    FUSION: False
+    BLOCKS: [3, 4, 6, 3]
+    EXTRAS: [512, 256, 128, 64]
+  PRIORS:
+    FEATURE_MAPS: [38, 19, 10, 5, 3, 1]
+    STRIDES: [8, 16, 32, 64, 100, 300]
+    MIN_SIZES: [21, 45, 99, 153, 207, 261]
+    MAX_SIZES: [45, 99, 153, 207, 261, 315]
+    ASPECT_RATIOS: [[2], [2, 3], [2, 3], [2, 3], [2], [2]]
+    BOXES_PER_LOCATION: [4, 6, 6, 6, 4, 4]
+INPUT:
+  IMAGE_SIZE: 300
+DATASETS:
+  TRAIN: ("coco_2019_train",)
+  TEST: ("coco_2019_val", )
+SOLVER:
+  MAX_ITER: 5000
+  LR_STEPS: [2000, 4000]
+  GAMMA: 0.1
+  BATCH_SIZE: 32
+  LR: 1e-3
+
+OUTPUT_DIR: 'outputs/test'
+2020-03-22 09:16:42,911 SSD INFO: Running with config:
+DATASETS:
+  TEST: ('coco_2019_val',)
+  TRAIN: ('coco_2019_train',)
+DATA_LOADER:
+  NUM_WORKERS: 8
+  PIN_MEMORY: True
+INPUT:
+  IMAGE_SIZE: 300
+  PIXEL_MEAN: [123, 117, 104]
+MODEL:
+  BACKBONE:
+    NAME: Resnet50
+    OUT_CHANNELS: (512, 1024, 2048, 1024, 512, 256)
+    PRETRAINED: True
+  BOX_HEAD:
+    NAME: SSDBoxHead
+    PREDICTOR: SSDBoxPredictor
+  CENTER_VARIANCE: 0.1
+  DEVICE: cuda
+  META_ARCHITECTURE: SSDDetector
+  NEG_POS_RATIO: 3
+  NUM_CLASSES: 5
+  PRIORS:
+    ASPECT_RATIOS: [[2], [2, 3], [2, 3], [2, 3], [2], [2]]
+    BOXES_PER_LOCATION: [4, 6, 6, 6, 4, 4]
+    CLIP: True
+    FEATURE_MAPS: [38, 19, 10, 5, 3, 1]
+    MAX_SIZES: [45, 99, 153, 207, 261, 315]
+    MIN_SIZES: [21, 45, 99, 153, 207, 261]
+    STRIDES: [8, 16, 32, 64, 100, 300]
+  RESNET:
+    BLOCKS: [3, 4, 6, 3]
+    CBAM: False
+    EXTRAS: [512, 256, 128, 64]
+    FUSION: False
+    SE: False
+  SIZE_VARIANCE: 0.2
+  THRESHOLD: 0.5
+OUTPUT_DIR: outputs/test
+SOLVER:
+  BATCH_SIZE: 32
+  GAMMA: 0.1
+  LR: 0.001
+  LR_STEPS: [2000, 4000]
+  MAX_ITER: 5000
+  MOMENTUM: 0.9
+  WARMUP_FACTOR: 0.3333333333333333
+  WARMUP_ITERS: 500
+  WEIGHT_DECAY: 0.0005
+TEST:
+  BATCH_SIZE: 10
+  CONFIDENCE_THRESHOLD: 0.01
+  MAX_PER_CLASS: -1
+  MAX_PER_IMAGE: 100
+  NMS_THRESHOLD: 0.45
+2020-03-22 09:17:42,896 SSD INFO: Using 1 GPUs
+2020-03-22 09:17:42,897 SSD INFO: Namespace(config_file='configs/SSD300/Resnet.yaml', distributed=False, eval_step=1000, local_rank=0, log_step=10, num_gpus=1, opts=[], save_step=6000, skip_test=False, use_tensorboard=False)
+2020-03-22 09:17:42,897 SSD INFO: Loaded configuration file configs/SSD300/Resnet.yaml
+2020-03-22 09:17:42,897 SSD INFO: 
+MODEL:
+  NUM_CLASSES: 5
+  BACKBONE:
+    NAME: "Resnet50"
+    OUT_CHANNELS: (512, 1024, 2048, 1024, 512, 256)
+  RESNET:
+    SE: False
+    CBAM: False
+    FUSION: False
+    BLOCKS: [3, 4, 6, 3]
+    EXTRAS: [512, 256, 128, 64]
+  PRIORS:
+    FEATURE_MAPS: [38, 19, 10, 5, 3, 1]
+    STRIDES: [8, 16, 32, 64, 100, 300]
+    MIN_SIZES: [21, 45, 99, 153, 207, 261]
+    MAX_SIZES: [45, 99, 153, 207, 261, 315]
+    ASPECT_RATIOS: [[2], [2, 3], [2, 3], [2, 3], [2], [2]]
+    BOXES_PER_LOCATION: [4, 6, 6, 6, 4, 4]
+INPUT:
+  IMAGE_SIZE: 300
+DATASETS:
+  TRAIN: ("coco_2019_train",)
+  TEST: ("coco_2019_val", )
+SOLVER:
+  MAX_ITER: 5000
+  LR_STEPS: [2000, 4000]
+  GAMMA: 0.1
+  BATCH_SIZE: 32
+  LR: 1e-3
+
+OUTPUT_DIR: 'outputs/test'
+2020-03-22 09:17:42,898 SSD INFO: Running with config:
+DATASETS:
+  TEST: ('coco_2019_val',)
+  TRAIN: ('coco_2019_train',)
+DATA_LOADER:
+  NUM_WORKERS: 8
+  PIN_MEMORY: True
+INPUT:
+  IMAGE_SIZE: 300
+  PIXEL_MEAN: [123, 117, 104]
+MODEL:
+  BACKBONE:
+    NAME: Resnet50
+    OUT_CHANNELS: (512, 1024, 2048, 1024, 512, 256)
+    PRETRAINED: True
+  BOX_HEAD:
+    NAME: SSDBoxHead
+    PREDICTOR: SSDBoxPredictor
+  CENTER_VARIANCE: 0.1
+  DEVICE: cuda
+  META_ARCHITECTURE: SSDDetector
+  NEG_POS_RATIO: 3
+  NUM_CLASSES: 5
+  PRIORS:
+    ASPECT_RATIOS: [[2], [2, 3], [2, 3], [2, 3], [2], [2]]
+    BOXES_PER_LOCATION: [4, 6, 6, 6, 4, 4]
+    CLIP: True
+    FEATURE_MAPS: [38, 19, 10, 5, 3, 1]
+    MAX_SIZES: [45, 99, 153, 207, 261, 315]
+    MIN_SIZES: [21, 45, 99, 153, 207, 261]
+    STRIDES: [8, 16, 32, 64, 100, 300]
+  RESNET:
+    BLOCKS: [3, 4, 6, 3]
+    CBAM: False
+    EXTRAS: [512, 256, 128, 64]
+    FUSION: False
+    SE: False
+  SIZE_VARIANCE: 0.2
+  THRESHOLD: 0.5
+OUTPUT_DIR: outputs/test
+SOLVER:
+  BATCH_SIZE: 32
+  GAMMA: 0.1
+  LR: 0.001
+  LR_STEPS: [2000, 4000]
+  MAX_ITER: 5000
+  MOMENTUM: 0.9
+  WARMUP_FACTOR: 0.3333333333333333
+  WARMUP_ITERS: 500
+  WEIGHT_DECAY: 0.0005
+TEST:
+  BATCH_SIZE: 10
+  CONFIDENCE_THRESHOLD: 0.01
+  MAX_PER_CLASS: -1
+  MAX_PER_IMAGE: 100
+  NMS_THRESHOLD: 0.45
+2020-03-22 09:21:59,362 SSD INFO: Using 1 GPUs
+2020-03-22 09:21:59,363 SSD INFO: Namespace(config_file='configs/SSD300/Resnet.yaml', distributed=False, eval_step=1000, local_rank=0, log_step=10, num_gpus=1, opts=[], save_step=6000, skip_test=False, use_tensorboard=False)
+2020-03-22 09:21:59,363 SSD INFO: Loaded configuration file configs/SSD300/Resnet.yaml
+2020-03-22 09:21:59,364 SSD INFO: 
+MODEL:
+  NUM_CLASSES: 5
+  BACKBONE:
+    NAME: "Resnet50"
+    OUT_CHANNELS: (512, 1024, 2048, 1024, 512, 256)
+  RESNET:
+    SE: True
+    CBAM: False
+    FUSION: False
+    BLOCKS: [3, 4, 6, 3]
+    EXTRAS: [512, 256, 128, 64]
+  PRIORS:
+    FEATURE_MAPS: [38, 19, 10, 5, 3, 1]
+    STRIDES: [8, 16, 32, 64, 100, 300]
+    MIN_SIZES: [21, 45, 99, 153, 207, 261]
+    MAX_SIZES: [45, 99, 153, 207, 261, 315]
+    ASPECT_RATIOS: [[2], [2, 3], [2, 3], [2, 3], [2], [2]]
+    BOXES_PER_LOCATION: [4, 6, 6, 6, 4, 4]
+INPUT:
+  IMAGE_SIZE: 300
+DATASETS:
+  TRAIN: ("coco_2019_train",)
+  TEST: ("coco_2019_val", )
+SOLVER:
+  MAX_ITER: 5000
+  LR_STEPS: [2000, 4000]
+  GAMMA: 0.1
+  BATCH_SIZE: 32
+  LR: 1e-3
+
+OUTPUT_DIR: 'outputs/test'
+2020-03-22 09:21:59,365 SSD INFO: Running with config:
+DATASETS:
+  TEST: ('coco_2019_val',)
+  TRAIN: ('coco_2019_train',)
+DATA_LOADER:
+  NUM_WORKERS: 8
+  PIN_MEMORY: True
+INPUT:
+  IMAGE_SIZE: 300
+  PIXEL_MEAN: [123, 117, 104]
+MODEL:
+  BACKBONE:
+    NAME: Resnet50
+    OUT_CHANNELS: (512, 1024, 2048, 1024, 512, 256)
+    PRETRAINED: True
+  BOX_HEAD:
+    NAME: SSDBoxHead
+    PREDICTOR: SSDBoxPredictor
+  CENTER_VARIANCE: 0.1
+  DEVICE: cuda
+  META_ARCHITECTURE: SSDDetector
+  NEG_POS_RATIO: 3
+  NUM_CLASSES: 5
+  PRIORS:
+    ASPECT_RATIOS: [[2], [2, 3], [2, 3], [2, 3], [2], [2]]
+    BOXES_PER_LOCATION: [4, 6, 6, 6, 4, 4]
+    CLIP: True
+    FEATURE_MAPS: [38, 19, 10, 5, 3, 1]
+    MAX_SIZES: [45, 99, 153, 207, 261, 315]
+    MIN_SIZES: [21, 45, 99, 153, 207, 261]
+    STRIDES: [8, 16, 32, 64, 100, 300]
+  RESNET:
+    BLOCKS: [3, 4, 6, 3]
+    CBAM: False
+    EXTRAS: [512, 256, 128, 64]
+    FUSION: False
+    SE: True
+  SIZE_VARIANCE: 0.2
+  THRESHOLD: 0.5
+OUTPUT_DIR: outputs/test
+SOLVER:
+  BATCH_SIZE: 32
+  GAMMA: 0.1
+  LR: 0.001
+  LR_STEPS: [2000, 4000]
+  MAX_ITER: 5000
+  MOMENTUM: 0.9
+  WARMUP_FACTOR: 0.3333333333333333
+  WARMUP_ITERS: 500
+  WEIGHT_DECAY: 0.0005
+TEST:
+  BATCH_SIZE: 10
+  CONFIDENCE_THRESHOLD: 0.01
+  MAX_PER_CLASS: -1
+  MAX_PER_IMAGE: 100
+  NMS_THRESHOLD: 0.45
+2020-03-22 09:22:50,231 SSD INFO: Using 1 GPUs
+2020-03-22 09:22:50,232 SSD INFO: Namespace(config_file='configs/SSD300/Resnet.yaml', distributed=False, eval_step=1000, local_rank=0, log_step=10, num_gpus=1, opts=[], save_step=6000, skip_test=False, use_tensorboard=False)
+2020-03-22 09:22:50,232 SSD INFO: Loaded configuration file configs/SSD300/Resnet.yaml
+2020-03-22 09:22:50,233 SSD INFO: 
+MODEL:
+  NUM_CLASSES: 5
+  BACKBONE:
+    NAME: "Resnet50"
+    OUT_CHANNELS: (512, 1024, 2048, 1024, 512, 256)
+  RESNET:
+    SE: False
+    CBAM: True
+    FUSION: False
+    BLOCKS: [3, 4, 6, 3]
+    EXTRAS: [512, 256, 128, 64]
+  PRIORS:
+    FEATURE_MAPS: [38, 19, 10, 5, 3, 1]
+    STRIDES: [8, 16, 32, 64, 100, 300]
+    MIN_SIZES: [21, 45, 99, 153, 207, 261]
+    MAX_SIZES: [45, 99, 153, 207, 261, 315]
+    ASPECT_RATIOS: [[2], [2, 3], [2, 3], [2, 3], [2], [2]]
+    BOXES_PER_LOCATION: [4, 6, 6, 6, 4, 4]
+INPUT:
+  IMAGE_SIZE: 300
+DATASETS:
+  TRAIN: ("coco_2019_train",)
+  TEST: ("coco_2019_val", )
+SOLVER:
+  MAX_ITER: 5000
+  LR_STEPS: [2000, 4000]
+  GAMMA: 0.1
+  BATCH_SIZE: 32
+  LR: 1e-3
+
+OUTPUT_DIR: 'outputs/test'
+2020-03-22 09:22:50,234 SSD INFO: Running with config:
+DATASETS:
+  TEST: ('coco_2019_val',)
+  TRAIN: ('coco_2019_train',)
+DATA_LOADER:
+  NUM_WORKERS: 8
+  PIN_MEMORY: True
+INPUT:
+  IMAGE_SIZE: 300
+  PIXEL_MEAN: [123, 117, 104]
+MODEL:
+  BACKBONE:
+    NAME: Resnet50
+    OUT_CHANNELS: (512, 1024, 2048, 1024, 512, 256)
+    PRETRAINED: True
+  BOX_HEAD:
+    NAME: SSDBoxHead
+    PREDICTOR: SSDBoxPredictor
+  CENTER_VARIANCE: 0.1
+  DEVICE: cuda
+  META_ARCHITECTURE: SSDDetector
+  NEG_POS_RATIO: 3
+  NUM_CLASSES: 5
+  PRIORS:
+    ASPECT_RATIOS: [[2], [2, 3], [2, 3], [2, 3], [2], [2]]
+    BOXES_PER_LOCATION: [4, 6, 6, 6, 4, 4]
+    CLIP: True
+    FEATURE_MAPS: [38, 19, 10, 5, 3, 1]
+    MAX_SIZES: [45, 99, 153, 207, 261, 315]
+    MIN_SIZES: [21, 45, 99, 153, 207, 261]
+    STRIDES: [8, 16, 32, 64, 100, 300]
+  RESNET:
+    BLOCKS: [3, 4, 6, 3]
+    CBAM: True
+    EXTRAS: [512, 256, 128, 64]
+    FUSION: False
+    SE: False
+  SIZE_VARIANCE: 0.2
+  THRESHOLD: 0.5
+OUTPUT_DIR: outputs/test
+SOLVER:
+  BATCH_SIZE: 32
+  GAMMA: 0.1
+  LR: 0.001
+  LR_STEPS: [2000, 4000]
+  MAX_ITER: 5000
+  MOMENTUM: 0.9
+  WARMUP_FACTOR: 0.3333333333333333
+  WARMUP_ITERS: 500
+  WEIGHT_DECAY: 0.0005
+TEST:
+  BATCH_SIZE: 10
+  CONFIDENCE_THRESHOLD: 0.01
+  MAX_PER_CLASS: -1
+  MAX_PER_IMAGE: 100
+  NMS_THRESHOLD: 0.45
+2020-03-22 09:23:31,774 SSD INFO: Using 1 GPUs
+2020-03-22 09:23:31,774 SSD INFO: Namespace(config_file='configs/SSD300/Resnet.yaml', distributed=False, eval_step=1000, local_rank=0, log_step=10, num_gpus=1, opts=[], save_step=6000, skip_test=False, use_tensorboard=False)
+2020-03-22 09:23:31,775 SSD INFO: Loaded configuration file configs/SSD300/Resnet.yaml
+2020-03-22 09:23:31,775 SSD INFO: 
+MODEL:
+  NUM_CLASSES: 5
+  BACKBONE:
+    NAME: "Resnet50"
+    OUT_CHANNELS: (512, 1024, 2048, 1024, 512, 256)
+  RESNET:
+    SE: False
+    CBAM: True
+    FUSION: False
+    BLOCKS: [3, 4, 6, 3]
+    EXTRAS: [512, 256, 128, 64]
+  PRIORS:
+    FEATURE_MAPS: [38, 19, 10, 5, 3, 1]
+    STRIDES: [8, 16, 32, 64, 100, 300]
+    MIN_SIZES: [21, 45, 99, 153, 207, 261]
+    MAX_SIZES: [45, 99, 153, 207, 261, 315]
+    ASPECT_RATIOS: [[2], [2, 3], [2, 3], [2, 3], [2], [2]]
+    BOXES_PER_LOCATION: [4, 6, 6, 6, 4, 4]
+INPUT:
+  IMAGE_SIZE: 300
+DATASETS:
+  TRAIN: ("coco_2019_train",)
+  TEST: ("coco_2019_val", )
+SOLVER:
+  MAX_ITER: 5000
+  LR_STEPS: [2000, 4000]
+  GAMMA: 0.1
+  BATCH_SIZE: 32
+  LR: 1e-3
+
+OUTPUT_DIR: 'outputs/test'
+2020-03-22 09:23:31,776 SSD INFO: Running with config:
+DATASETS:
+  TEST: ('coco_2019_val',)
+  TRAIN: ('coco_2019_train',)
+DATA_LOADER:
+  NUM_WORKERS: 8
+  PIN_MEMORY: True
+INPUT:
+  IMAGE_SIZE: 300
+  PIXEL_MEAN: [123, 117, 104]
+MODEL:
+  BACKBONE:
+    NAME: Resnet50
+    OUT_CHANNELS: (512, 1024, 2048, 1024, 512, 256)
+    PRETRAINED: True
+  BOX_HEAD:
+    NAME: SSDBoxHead
+    PREDICTOR: SSDBoxPredictor
+  CENTER_VARIANCE: 0.1
+  DEVICE: cuda
+  META_ARCHITECTURE: SSDDetector
+  NEG_POS_RATIO: 3
+  NUM_CLASSES: 5
+  PRIORS:
+    ASPECT_RATIOS: [[2], [2, 3], [2, 3], [2, 3], [2], [2]]
+    BOXES_PER_LOCATION: [4, 6, 6, 6, 4, 4]
+    CLIP: True
+    FEATURE_MAPS: [38, 19, 10, 5, 3, 1]
+    MAX_SIZES: [45, 99, 153, 207, 261, 315]
+    MIN_SIZES: [21, 45, 99, 153, 207, 261]
+    STRIDES: [8, 16, 32, 64, 100, 300]
+  RESNET:
+    BLOCKS: [3, 4, 6, 3]
+    CBAM: True
+    EXTRAS: [512, 256, 128, 64]
+    FUSION: False
+    SE: False
+  SIZE_VARIANCE: 0.2
+  THRESHOLD: 0.5
+OUTPUT_DIR: outputs/test
+SOLVER:
+  BATCH_SIZE: 32
+  GAMMA: 0.1
+  LR: 0.001
+  LR_STEPS: [2000, 4000]
+  MAX_ITER: 5000
+  MOMENTUM: 0.9
+  WARMUP_FACTOR: 0.3333333333333333
+  WARMUP_ITERS: 500
+  WEIGHT_DECAY: 0.0005
+TEST:
+  BATCH_SIZE: 10
+  CONFIDENCE_THRESHOLD: 0.01
+  MAX_PER_CLASS: -1
+  MAX_PER_IMAGE: 100
+  NMS_THRESHOLD: 0.45
+2020-03-22 09:24:22,457 SSD INFO: Using 1 GPUs
+2020-03-22 09:24:22,457 SSD INFO: Namespace(config_file='configs/SSD300/Resnet.yaml', distributed=False, eval_step=1000, local_rank=0, log_step=10, num_gpus=1, opts=[], save_step=6000, skip_test=False, use_tensorboard=False)
+2020-03-22 09:24:22,458 SSD INFO: Loaded configuration file configs/SSD300/Resnet.yaml
+2020-03-22 09:24:22,458 SSD INFO: 
+MODEL:
+  NUM_CLASSES: 5
+  BACKBONE:
+    NAME: "Resnet50"
+    OUT_CHANNELS: (512, 1024, 2048, 1024, 512, 256)
+  RESNET:
+    SE: True
+    CBAM: True
+    FUSION: False
+    BLOCKS: [3, 4, 6, 3]
+    EXTRAS: [512, 256, 128, 64]
+  PRIORS:
+    FEATURE_MAPS: [38, 19, 10, 5, 3, 1]
+    STRIDES: [8, 16, 32, 64, 100, 300]
+    MIN_SIZES: [21, 45, 99, 153, 207, 261]
+    MAX_SIZES: [45, 99, 153, 207, 261, 315]
+    ASPECT_RATIOS: [[2], [2, 3], [2, 3], [2, 3], [2], [2]]
+    BOXES_PER_LOCATION: [4, 6, 6, 6, 4, 4]
+INPUT:
+  IMAGE_SIZE: 300
+DATASETS:
+  TRAIN: ("coco_2019_train",)
+  TEST: ("coco_2019_val", )
+SOLVER:
+  MAX_ITER: 5000
+  LR_STEPS: [2000, 4000]
+  GAMMA: 0.1
+  BATCH_SIZE: 32
+  LR: 1e-3
+
+OUTPUT_DIR: 'outputs/test'
+2020-03-22 09:24:22,459 SSD INFO: Running with config:
+DATASETS:
+  TEST: ('coco_2019_val',)
+  TRAIN: ('coco_2019_train',)
+DATA_LOADER:
+  NUM_WORKERS: 8
+  PIN_MEMORY: True
+INPUT:
+  IMAGE_SIZE: 300
+  PIXEL_MEAN: [123, 117, 104]
+MODEL:
+  BACKBONE:
+    NAME: Resnet50
+    OUT_CHANNELS: (512, 1024, 2048, 1024, 512, 256)
+    PRETRAINED: True
+  BOX_HEAD:
+    NAME: SSDBoxHead
+    PREDICTOR: SSDBoxPredictor
+  CENTER_VARIANCE: 0.1
+  DEVICE: cuda
+  META_ARCHITECTURE: SSDDetector
+  NEG_POS_RATIO: 3
+  NUM_CLASSES: 5
+  PRIORS:
+    ASPECT_RATIOS: [[2], [2, 3], [2, 3], [2, 3], [2], [2]]
+    BOXES_PER_LOCATION: [4, 6, 6, 6, 4, 4]
+    CLIP: True
+    FEATURE_MAPS: [38, 19, 10, 5, 3, 1]
+    MAX_SIZES: [45, 99, 153, 207, 261, 315]
+    MIN_SIZES: [21, 45, 99, 153, 207, 261]
+    STRIDES: [8, 16, 32, 64, 100, 300]
+  RESNET:
+    BLOCKS: [3, 4, 6, 3]
+    CBAM: True
+    EXTRAS: [512, 256, 128, 64]
+    FUSION: False
+    SE: True
+  SIZE_VARIANCE: 0.2
+  THRESHOLD: 0.5
+OUTPUT_DIR: outputs/test
+SOLVER:
+  BATCH_SIZE: 32
+  GAMMA: 0.1
+  LR: 0.001
+  LR_STEPS: [2000, 4000]
+  MAX_ITER: 5000
+  MOMENTUM: 0.9
+  WARMUP_FACTOR: 0.3333333333333333
+  WARMUP_ITERS: 500
+  WEIGHT_DECAY: 0.0005
+TEST:
+  BATCH_SIZE: 10
+  CONFIDENCE_THRESHOLD: 0.01
+  MAX_PER_CLASS: -1
+  MAX_PER_IMAGE: 100
+  NMS_THRESHOLD: 0.45
+2020-03-22 09:24:51,820 SSD INFO: Using 1 GPUs
+2020-03-22 09:24:51,822 SSD INFO: Namespace(config_file='configs/SSD300/Resnet.yaml', distributed=False, eval_step=1000, local_rank=0, log_step=10, num_gpus=1, opts=[], save_step=6000, skip_test=False, use_tensorboard=False)
+2020-03-22 09:24:51,822 SSD INFO: Loaded configuration file configs/SSD300/Resnet.yaml
+2020-03-22 09:24:51,824 SSD INFO: 
+MODEL:
+  NUM_CLASSES: 5
+  BACKBONE:
+    NAME: "Resnet50"
+    OUT_CHANNELS: (512, 1024, 2048, 1024, 512, 256)
+  RESNET:
+    SE: False
+    CBAM: True
+    FUSION: False
+    BLOCKS: [3, 4, 6, 3]
+    EXTRAS: [512, 256, 128, 64]
+  PRIORS:
+    FEATURE_MAPS: [38, 19, 10, 5, 3, 1]
+    STRIDES: [8, 16, 32, 64, 100, 300]
+    MIN_SIZES: [21, 45, 99, 153, 207, 261]
+    MAX_SIZES: [45, 99, 153, 207, 261, 315]
+    ASPECT_RATIOS: [[2], [2, 3], [2, 3], [2, 3], [2], [2]]
+    BOXES_PER_LOCATION: [4, 6, 6, 6, 4, 4]
+INPUT:
+  IMAGE_SIZE: 300
+DATASETS:
+  TRAIN: ("coco_2019_train",)
+  TEST: ("coco_2019_val", )
+SOLVER:
+  MAX_ITER: 5000
+  LR_STEPS: [2000, 4000]
+  GAMMA: 0.1
+  BATCH_SIZE: 32
+  LR: 1e-3
+
+OUTPUT_DIR: 'outputs/test'
+2020-03-22 09:24:51,825 SSD INFO: Running with config:
+DATASETS:
+  TEST: ('coco_2019_val',)
+  TRAIN: ('coco_2019_train',)
+DATA_LOADER:
+  NUM_WORKERS: 8
+  PIN_MEMORY: True
+INPUT:
+  IMAGE_SIZE: 300
+  PIXEL_MEAN: [123, 117, 104]
+MODEL:
+  BACKBONE:
+    NAME: Resnet50
+    OUT_CHANNELS: (512, 1024, 2048, 1024, 512, 256)
+    PRETRAINED: True
+  BOX_HEAD:
+    NAME: SSDBoxHead
+    PREDICTOR: SSDBoxPredictor
+  CENTER_VARIANCE: 0.1
+  DEVICE: cuda
+  META_ARCHITECTURE: SSDDetector
+  NEG_POS_RATIO: 3
+  NUM_CLASSES: 5
+  PRIORS:
+    ASPECT_RATIOS: [[2], [2, 3], [2, 3], [2, 3], [2], [2]]
+    BOXES_PER_LOCATION: [4, 6, 6, 6, 4, 4]
+    CLIP: True
+    FEATURE_MAPS: [38, 19, 10, 5, 3, 1]
+    MAX_SIZES: [45, 99, 153, 207, 261, 315]
+    MIN_SIZES: [21, 45, 99, 153, 207, 261]
+    STRIDES: [8, 16, 32, 64, 100, 300]
+  RESNET:
+    BLOCKS: [3, 4, 6, 3]
+    CBAM: True
+    EXTRAS: [512, 256, 128, 64]
+    FUSION: False
+    SE: False
+  SIZE_VARIANCE: 0.2
+  THRESHOLD: 0.5
+OUTPUT_DIR: outputs/test
+SOLVER:
+  BATCH_SIZE: 32
+  GAMMA: 0.1
+  LR: 0.001
+  LR_STEPS: [2000, 4000]
+  MAX_ITER: 5000
+  MOMENTUM: 0.9
+  WARMUP_FACTOR: 0.3333333333333333
+  WARMUP_ITERS: 500
+  WEIGHT_DECAY: 0.0005
+TEST:
+  BATCH_SIZE: 10
+  CONFIDENCE_THRESHOLD: 0.01
+  MAX_PER_CLASS: -1
+  MAX_PER_IMAGE: 100
+  NMS_THRESHOLD: 0.45
+2020-03-22 09:25:40,109 SSD INFO: Using 1 GPUs
+2020-03-22 09:25:40,110 SSD INFO: Namespace(config_file='configs/SSD300/Resnet.yaml', distributed=False, eval_step=1000, local_rank=0, log_step=10, num_gpus=1, opts=[], save_step=6000, skip_test=False, use_tensorboard=False)
+2020-03-22 09:25:40,111 SSD INFO: Loaded configuration file configs/SSD300/Resnet.yaml
+2020-03-22 09:25:40,111 SSD INFO: 
+MODEL:
+  NUM_CLASSES: 5
+  BACKBONE:
+    NAME: "Resnet50"
+    OUT_CHANNELS: (512, 1024, 2048, 1024, 512, 256)
+  RESNET:
+    SE: False
+    CBAM: False
+    FUSION: True
+    BLOCKS: [3, 4, 6, 3]
+    EXTRAS: [512, 256, 128, 64]
+  PRIORS:
+    FEATURE_MAPS: [38, 19, 10, 5, 3, 1]
+    STRIDES: [8, 16, 32, 64, 100, 300]
+    MIN_SIZES: [21, 45, 99, 153, 207, 261]
+    MAX_SIZES: [45, 99, 153, 207, 261, 315]
+    ASPECT_RATIOS: [[2], [2, 3], [2, 3], [2, 3], [2], [2]]
+    BOXES_PER_LOCATION: [4, 6, 6, 6, 4, 4]
+INPUT:
+  IMAGE_SIZE: 300
+DATASETS:
+  TRAIN: ("coco_2019_train",)
+  TEST: ("coco_2019_val", )
+SOLVER:
+  MAX_ITER: 5000
+  LR_STEPS: [2000, 4000]
+  GAMMA: 0.1
+  BATCH_SIZE: 32
+  LR: 1e-3
+
+OUTPUT_DIR: 'outputs/test'
+2020-03-22 09:25:40,112 SSD INFO: Running with config:
+DATASETS:
+  TEST: ('coco_2019_val',)
+  TRAIN: ('coco_2019_train',)
+DATA_LOADER:
+  NUM_WORKERS: 8
+  PIN_MEMORY: True
+INPUT:
+  IMAGE_SIZE: 300
+  PIXEL_MEAN: [123, 117, 104]
+MODEL:
+  BACKBONE:
+    NAME: Resnet50
+    OUT_CHANNELS: (512, 1024, 2048, 1024, 512, 256)
+    PRETRAINED: True
+  BOX_HEAD:
+    NAME: SSDBoxHead
+    PREDICTOR: SSDBoxPredictor
+  CENTER_VARIANCE: 0.1
+  DEVICE: cuda
+  META_ARCHITECTURE: SSDDetector
+  NEG_POS_RATIO: 3
+  NUM_CLASSES: 5
+  PRIORS:
+    ASPECT_RATIOS: [[2], [2, 3], [2, 3], [2, 3], [2], [2]]
+    BOXES_PER_LOCATION: [4, 6, 6, 6, 4, 4]
+    CLIP: True
+    FEATURE_MAPS: [38, 19, 10, 5, 3, 1]
+    MAX_SIZES: [45, 99, 153, 207, 261, 315]
+    MIN_SIZES: [21, 45, 99, 153, 207, 261]
+    STRIDES: [8, 16, 32, 64, 100, 300]
+  RESNET:
+    BLOCKS: [3, 4, 6, 3]
+    CBAM: False
+    EXTRAS: [512, 256, 128, 64]
+    FUSION: True
+    SE: False
+  SIZE_VARIANCE: 0.2
+  THRESHOLD: 0.5
+OUTPUT_DIR: outputs/test
+SOLVER:
+  BATCH_SIZE: 32
+  GAMMA: 0.1
+  LR: 0.001
+  LR_STEPS: [2000, 4000]
+  MAX_ITER: 5000
+  MOMENTUM: 0.9
+  WARMUP_FACTOR: 0.3333333333333333
+  WARMUP_ITERS: 500
+  WEIGHT_DECAY: 0.0005
+TEST:
+  BATCH_SIZE: 10
+  CONFIDENCE_THRESHOLD: 0.01
+  MAX_PER_CLASS: -1
+  MAX_PER_IMAGE: 100
+  NMS_THRESHOLD: 0.45
+2020-03-22 09:27:57,262 SSD INFO: Using 1 GPUs
+2020-03-22 09:27:57,263 SSD INFO: Namespace(config_file='configs/SSD300/Resnet.yaml', distributed=False, eval_step=1000, local_rank=0, log_step=10, num_gpus=1, opts=[], save_step=6000, skip_test=False, use_tensorboard=False)
+2020-03-22 09:27:57,263 SSD INFO: Loaded configuration file configs/SSD300/Resnet.yaml
+2020-03-22 09:27:57,263 SSD INFO: 
+MODEL:
+  NUM_CLASSES: 5
+  BACKBONE:
+    NAME: "Resnet50"
+    OUT_CHANNELS: (512, 1024, 2048, 1024, 512, 256)
+  RESNET:
+    SE: False
+    CBAM: False
+    FUSION: True
+    BLOCKS: [3, 4, 6, 3]
+    EXTRAS: [512, 256, 128, 64]
+  PRIORS:
+    FEATURE_MAPS: [38, 19, 10, 5, 3, 1]
+    STRIDES: [8, 16, 32, 64, 100, 300]
+    MIN_SIZES: [21, 45, 99, 153, 207, 261]
+    MAX_SIZES: [45, 99, 153, 207, 261, 315]
+    ASPECT_RATIOS: [[2], [2, 3], [2, 3], [2, 3], [2], [2]]
+    BOXES_PER_LOCATION: [4, 6, 6, 6, 4, 4]
+INPUT:
+  IMAGE_SIZE: 300
+DATASETS:
+  TRAIN: ("coco_2019_train",)
+  TEST: ("coco_2019_val", )
+SOLVER:
+  MAX_ITER: 5000
+  LR_STEPS: [2000, 4000]
+  GAMMA: 0.1
+  BATCH_SIZE: 32
+  LR: 1e-3
+
+OUTPUT_DIR: 'outputs/test'
+2020-03-22 09:27:57,264 SSD INFO: Running with config:
+DATASETS:
+  TEST: ('coco_2019_val',)
+  TRAIN: ('coco_2019_train',)
+DATA_LOADER:
+  NUM_WORKERS: 8
+  PIN_MEMORY: True
+INPUT:
+  IMAGE_SIZE: 300
+  PIXEL_MEAN: [123, 117, 104]
+MODEL:
+  BACKBONE:
+    NAME: Resnet50
+    OUT_CHANNELS: (512, 1024, 2048, 1024, 512, 256)
+    PRETRAINED: True
+  BOX_HEAD:
+    NAME: SSDBoxHead
+    PREDICTOR: SSDBoxPredictor
+  CENTER_VARIANCE: 0.1
+  DEVICE: cuda
+  META_ARCHITECTURE: SSDDetector
+  NEG_POS_RATIO: 3
+  NUM_CLASSES: 5
+  PRIORS:
+    ASPECT_RATIOS: [[2], [2, 3], [2, 3], [2, 3], [2], [2]]
+    BOXES_PER_LOCATION: [4, 6, 6, 6, 4, 4]
+    CLIP: True
+    FEATURE_MAPS: [38, 19, 10, 5, 3, 1]
+    MAX_SIZES: [45, 99, 153, 207, 261, 315]
+    MIN_SIZES: [21, 45, 99, 153, 207, 261]
+    STRIDES: [8, 16, 32, 64, 100, 300]
+  RESNET:
+    BLOCKS: [3, 4, 6, 3]
+    CBAM: False
+    EXTRAS: [512, 256, 128, 64]
+    FUSION: True
+    SE: False
+  SIZE_VARIANCE: 0.2
+  THRESHOLD: 0.5
+OUTPUT_DIR: outputs/test
+SOLVER:
+  BATCH_SIZE: 32
+  GAMMA: 0.1
+  LR: 0.001
+  LR_STEPS: [2000, 4000]
+  MAX_ITER: 5000
+  MOMENTUM: 0.9
+  WARMUP_FACTOR: 0.3333333333333333
+  WARMUP_ITERS: 500
+  WEIGHT_DECAY: 0.0005
+TEST:
+  BATCH_SIZE: 10
+  CONFIDENCE_THRESHOLD: 0.01
+  MAX_PER_CLASS: -1
+  MAX_PER_IMAGE: 100
+  NMS_THRESHOLD: 0.45
+2020-03-22 09:36:25,510 SSD INFO: Using 1 GPUs
+2020-03-22 09:36:25,511 SSD INFO: Namespace(config_file='configs/SSD300/Resnet.yaml', distributed=False, eval_step=1000, local_rank=0, log_step=10, num_gpus=1, opts=[], save_step=6000, skip_test=False, use_tensorboard=False)
+2020-03-22 09:36:25,511 SSD INFO: Loaded configuration file configs/SSD300/Resnet.yaml
+2020-03-22 09:36:25,511 SSD INFO: 
+MODEL:
+  NUM_CLASSES: 5
+  BACKBONE:
+    NAME: "Resnet50"
+    OUT_CHANNELS: (512, 1024, 2048, 1024, 512, 256)
+  RESNET:
+    SE: True
+    CBAM: False
+    FUSION: True
+    BLOCKS: [3, 4, 6, 3]
+    EXTRAS: [512, 256, 128, 64]
+  PRIORS:
+    FEATURE_MAPS: [38, 19, 10, 5, 3, 1]
+    STRIDES: [8, 16, 32, 64, 100, 300]
+    MIN_SIZES: [21, 45, 99, 153, 207, 261]
+    MAX_SIZES: [45, 99, 153, 207, 261, 315]
+    ASPECT_RATIOS: [[2], [2, 3], [2, 3], [2, 3], [2], [2]]
+    BOXES_PER_LOCATION: [4, 6, 6, 6, 4, 4]
+INPUT:
+  IMAGE_SIZE: 300
+DATASETS:
+  TRAIN: ("coco_2019_train",)
+  TEST: ("coco_2019_val", )
+SOLVER:
+  MAX_ITER: 5000
+  LR_STEPS: [2000, 4000]
+  GAMMA: 0.1
+  BATCH_SIZE: 32
+  LR: 1e-3
+
+OUTPUT_DIR: 'outputs/test'
+2020-03-22 09:36:25,512 SSD INFO: Running with config:
+DATASETS:
+  TEST: ('coco_2019_val',)
+  TRAIN: ('coco_2019_train',)
+DATA_LOADER:
+  NUM_WORKERS: 8
+  PIN_MEMORY: True
+INPUT:
+  IMAGE_SIZE: 300
+  PIXEL_MEAN: [123, 117, 104]
+MODEL:
+  BACKBONE:
+    NAME: Resnet50
+    OUT_CHANNELS: (512, 1024, 2048, 1024, 512, 256)
+    PRETRAINED: True
+  BOX_HEAD:
+    NAME: SSDBoxHead
+    PREDICTOR: SSDBoxPredictor
+  CENTER_VARIANCE: 0.1
+  DEVICE: cuda
+  META_ARCHITECTURE: SSDDetector
+  NEG_POS_RATIO: 3
+  NUM_CLASSES: 5
+  PRIORS:
+    ASPECT_RATIOS: [[2], [2, 3], [2, 3], [2, 3], [2], [2]]
+    BOXES_PER_LOCATION: [4, 6, 6, 6, 4, 4]
+    CLIP: True
+    FEATURE_MAPS: [38, 19, 10, 5, 3, 1]
+    MAX_SIZES: [45, 99, 153, 207, 261, 315]
+    MIN_SIZES: [21, 45, 99, 153, 207, 261]
+    STRIDES: [8, 16, 32, 64, 100, 300]
+  RESNET:
+    BLOCKS: [3, 4, 6, 3]
+    CBAM: False
+    EXTRAS: [512, 256, 128, 64]
+    FUSION: True
+    SE: True
+  SIZE_VARIANCE: 0.2
+  THRESHOLD: 0.5
+OUTPUT_DIR: outputs/test
+SOLVER:
+  BATCH_SIZE: 32
+  GAMMA: 0.1
+  LR: 0.001
+  LR_STEPS: [2000, 4000]
+  MAX_ITER: 5000
+  MOMENTUM: 0.9
+  WARMUP_FACTOR: 0.3333333333333333
+  WARMUP_ITERS: 500
+  WEIGHT_DECAY: 0.0005
+TEST:
+  BATCH_SIZE: 10
+  CONFIDENCE_THRESHOLD: 0.01
+  MAX_PER_CLASS: -1
+  MAX_PER_IMAGE: 100
+  NMS_THRESHOLD: 0.45
+2020-03-22 09:40:31,778 SSD INFO: Using 1 GPUs
+2020-03-22 09:40:31,778 SSD INFO: Namespace(config_file='configs/SSD300/Resnet.yaml', distributed=False, eval_step=1000, local_rank=0, log_step=10, num_gpus=1, opts=[], save_step=6000, skip_test=False, use_tensorboard=False)
+2020-03-22 09:40:31,778 SSD INFO: Loaded configuration file configs/SSD300/Resnet.yaml
+2020-03-22 09:40:31,779 SSD INFO: 
+MODEL:
+  NUM_CLASSES: 5
+  BACKBONE:
+    NAME: "Resnet50"
+    OUT_CHANNELS: (512, 1024, 2048, 1024, 512, 256)
+  RESNET:
+    SE: True
+    CBAM: False
+    FUSION: True
+    BLOCKS: [3, 4, 6, 3]
+    EXTRAS: [512, 256, 128, 64]
+  PRIORS:
+    FEATURE_MAPS: [38, 19, 10, 5, 3, 1]
+    STRIDES: [8, 16, 32, 64, 100, 300]
+    MIN_SIZES: [21, 45, 99, 153, 207, 261]
+    MAX_SIZES: [45, 99, 153, 207, 261, 315]
+    ASPECT_RATIOS: [[2], [2, 3], [2, 3], [2, 3], [2], [2]]
+    BOXES_PER_LOCATION: [4, 6, 6, 6, 4, 4]
+INPUT:
+  IMAGE_SIZE: 300
+DATASETS:
+  TRAIN: ("coco_2019_train",)
+  TEST: ("coco_2019_val", )
+SOLVER:
+  MAX_ITER: 5000
+  LR_STEPS: [2000, 4000]
+  GAMMA: 0.1
+  BATCH_SIZE: 32
+  LR: 1e-3
+
+OUTPUT_DIR: 'outputs/test'
+2020-03-22 09:40:31,779 SSD INFO: Running with config:
+DATASETS:
+  TEST: ('coco_2019_val',)
+  TRAIN: ('coco_2019_train',)
+DATA_LOADER:
+  NUM_WORKERS: 8
+  PIN_MEMORY: True
+INPUT:
+  IMAGE_SIZE: 300
+  PIXEL_MEAN: [123, 117, 104]
+MODEL:
+  BACKBONE:
+    NAME: Resnet50
+    OUT_CHANNELS: (512, 1024, 2048, 1024, 512, 256)
+    PRETRAINED: True
+  BOX_HEAD:
+    NAME: SSDBoxHead
+    PREDICTOR: SSDBoxPredictor
+  CENTER_VARIANCE: 0.1
+  DEVICE: cuda
+  META_ARCHITECTURE: SSDDetector
+  NEG_POS_RATIO: 3
+  NUM_CLASSES: 5
+  PRIORS:
+    ASPECT_RATIOS: [[2], [2, 3], [2, 3], [2, 3], [2], [2]]
+    BOXES_PER_LOCATION: [4, 6, 6, 6, 4, 4]
+    CLIP: True
+    FEATURE_MAPS: [38, 19, 10, 5, 3, 1]
+    MAX_SIZES: [45, 99, 153, 207, 261, 315]
+    MIN_SIZES: [21, 45, 99, 153, 207, 261]
+    STRIDES: [8, 16, 32, 64, 100, 300]
+  RESNET:
+    BLOCKS: [3, 4, 6, 3]
+    CBAM: False
+    EXTRAS: [512, 256, 128, 64]
+    FUSION: True
+    SE: True
+  SIZE_VARIANCE: 0.2
+  THRESHOLD: 0.5
+OUTPUT_DIR: outputs/test
+SOLVER:
+  BATCH_SIZE: 32
+  GAMMA: 0.1
+  LR: 0.001
+  LR_STEPS: [2000, 4000]
+  MAX_ITER: 5000
+  MOMENTUM: 0.9
+  WARMUP_FACTOR: 0.3333333333333333
+  WARMUP_ITERS: 500
+  WEIGHT_DECAY: 0.0005
+TEST:
+  BATCH_SIZE: 10
+  CONFIDENCE_THRESHOLD: 0.01
+  MAX_PER_CLASS: -1
+  MAX_PER_IMAGE: 100
+  NMS_THRESHOLD: 0.45
+2020-03-22 09:42:10,584 SSD INFO: Using 1 GPUs
+2020-03-22 09:42:10,584 SSD INFO: Namespace(config_file='configs/SSD300/Resnet.yaml', distributed=False, eval_step=1000, local_rank=0, log_step=10, num_gpus=1, opts=[], save_step=6000, skip_test=False, use_tensorboard=False)
+2020-03-22 09:42:10,585 SSD INFO: Loaded configuration file configs/SSD300/Resnet.yaml
+2020-03-22 09:42:10,585 SSD INFO: 
+MODEL:
+  NUM_CLASSES: 5
+  BACKBONE:
+    NAME: "Resnet50"
+    OUT_CHANNELS: (512, 1024, 2048, 1024, 512, 256)
+  RESNET:
+    SE: True
+    CBAM: False
+    FUSION: True
+    BLOCKS: [3, 4, 6, 3]
+    EXTRAS: [512, 256, 128, 64]
+  PRIORS:
+    FEATURE_MAPS: [38, 19, 10, 5, 3, 1]
+    STRIDES: [8, 16, 32, 64, 100, 300]
+    MIN_SIZES: [21, 45, 99, 153, 207, 261]
+    MAX_SIZES: [45, 99, 153, 207, 261, 315]
+    ASPECT_RATIOS: [[2], [2, 3], [2, 3], [2, 3], [2], [2]]
+    BOXES_PER_LOCATION: [4, 6, 6, 6, 4, 4]
+INPUT:
+  IMAGE_SIZE: 300
+DATASETS:
+  TRAIN: ("coco_2019_train",)
+  TEST: ("coco_2019_val", )
+SOLVER:
+  MAX_ITER: 5000
+  LR_STEPS: [2000, 4000]
+  GAMMA: 0.1
+  BATCH_SIZE: 32
+  LR: 1e-3
+
+OUTPUT_DIR: 'outputs/test'
+2020-03-22 09:42:10,586 SSD INFO: Running with config:
+DATASETS:
+  TEST: ('coco_2019_val',)
+  TRAIN: ('coco_2019_train',)
+DATA_LOADER:
+  NUM_WORKERS: 8
+  PIN_MEMORY: True
+INPUT:
+  IMAGE_SIZE: 300
+  PIXEL_MEAN: [123, 117, 104]
+MODEL:
+  BACKBONE:
+    NAME: Resnet50
+    OUT_CHANNELS: (512, 1024, 2048, 1024, 512, 256)
+    PRETRAINED: True
+  BOX_HEAD:
+    NAME: SSDBoxHead
+    PREDICTOR: SSDBoxPredictor
+  CENTER_VARIANCE: 0.1
+  DEVICE: cuda
+  META_ARCHITECTURE: SSDDetector
+  NEG_POS_RATIO: 3
+  NUM_CLASSES: 5
+  PRIORS:
+    ASPECT_RATIOS: [[2], [2, 3], [2, 3], [2, 3], [2], [2]]
+    BOXES_PER_LOCATION: [4, 6, 6, 6, 4, 4]
+    CLIP: True
+    FEATURE_MAPS: [38, 19, 10, 5, 3, 1]
+    MAX_SIZES: [45, 99, 153, 207, 261, 315]
+    MIN_SIZES: [21, 45, 99, 153, 207, 261]
+    STRIDES: [8, 16, 32, 64, 100, 300]
+  RESNET:
+    BLOCKS: [3, 4, 6, 3]
+    CBAM: False
+    EXTRAS: [512, 256, 128, 64]
+    FUSION: True
+    SE: True
+  SIZE_VARIANCE: 0.2
+  THRESHOLD: 0.5
+OUTPUT_DIR: outputs/test
+SOLVER:
+  BATCH_SIZE: 32
+  GAMMA: 0.1
+  LR: 0.001
+  LR_STEPS: [2000, 4000]
+  MAX_ITER: 5000
+  MOMENTUM: 0.9
+  WARMUP_FACTOR: 0.3333333333333333
+  WARMUP_ITERS: 500
+  WEIGHT_DECAY: 0.0005
+TEST:
+  BATCH_SIZE: 10
+  CONFIDENCE_THRESHOLD: 0.01
+  MAX_PER_CLASS: -1
+  MAX_PER_IMAGE: 100
+  NMS_THRESHOLD: 0.45
+2020-03-22 09:43:51,181 SSD INFO: Using 1 GPUs
+2020-03-22 09:43:51,182 SSD INFO: Namespace(config_file='configs/SSD300/Resnet.yaml', distributed=False, eval_step=1000, local_rank=0, log_step=10, num_gpus=1, opts=[], save_step=6000, skip_test=False, use_tensorboard=False)
+2020-03-22 09:43:51,182 SSD INFO: Loaded configuration file configs/SSD300/Resnet.yaml
+2020-03-22 09:43:51,183 SSD INFO: 
+MODEL:
+  NUM_CLASSES: 5
+  BACKBONE:
+    NAME: "Resnet50"
+    OUT_CHANNELS: (512, 1024, 2048, 1024, 512, 256)
+  RESNET:
+    SE: True
+    CBAM: False
+    FUSION: True
+    BLOCKS: [3, 4, 6, 3]
+    EXTRAS: [512, 256, 128, 64]
+  PRIORS:
+    FEATURE_MAPS: [38, 19, 10, 5, 3, 1]
+    STRIDES: [8, 16, 32, 64, 100, 300]
+    MIN_SIZES: [21, 45, 99, 153, 207, 261]
+    MAX_SIZES: [45, 99, 153, 207, 261, 315]
+    ASPECT_RATIOS: [[2], [2, 3], [2, 3], [2, 3], [2], [2]]
+    BOXES_PER_LOCATION: [4, 6, 6, 6, 4, 4]
+INPUT:
+  IMAGE_SIZE: 300
+DATASETS:
+  TRAIN: ("coco_2019_train",)
+  TEST: ("coco_2019_val", )
+SOLVER:
+  MAX_ITER: 5000
+  LR_STEPS: [2000, 4000]
+  GAMMA: 0.1
+  BATCH_SIZE: 32
+  LR: 1e-3
+
+OUTPUT_DIR: 'outputs/test'
+2020-03-22 09:43:51,184 SSD INFO: Running with config:
+DATASETS:
+  TEST: ('coco_2019_val',)
+  TRAIN: ('coco_2019_train',)
+DATA_LOADER:
+  NUM_WORKERS: 8
+  PIN_MEMORY: True
+INPUT:
+  IMAGE_SIZE: 300
+  PIXEL_MEAN: [123, 117, 104]
+MODEL:
+  BACKBONE:
+    NAME: Resnet50
+    OUT_CHANNELS: (512, 1024, 2048, 1024, 512, 256)
+    PRETRAINED: True
+  BOX_HEAD:
+    NAME: SSDBoxHead
+    PREDICTOR: SSDBoxPredictor
+  CENTER_VARIANCE: 0.1
+  DEVICE: cuda
+  META_ARCHITECTURE: SSDDetector
+  NEG_POS_RATIO: 3
+  NUM_CLASSES: 5
+  PRIORS:
+    ASPECT_RATIOS: [[2], [2, 3], [2, 3], [2, 3], [2], [2]]
+    BOXES_PER_LOCATION: [4, 6, 6, 6, 4, 4]
+    CLIP: True
+    FEATURE_MAPS: [38, 19, 10, 5, 3, 1]
+    MAX_SIZES: [45, 99, 153, 207, 261, 315]
+    MIN_SIZES: [21, 45, 99, 153, 207, 261]
+    STRIDES: [8, 16, 32, 64, 100, 300]
+  RESNET:
+    BLOCKS: [3, 4, 6, 3]
+    CBAM: False
+    EXTRAS: [512, 256, 128, 64]
+    FUSION: True
+    SE: True
+  SIZE_VARIANCE: 0.2
+  THRESHOLD: 0.5
+OUTPUT_DIR: outputs/test
+SOLVER:
+  BATCH_SIZE: 32
+  GAMMA: 0.1
+  LR: 0.001
+  LR_STEPS: [2000, 4000]
+  MAX_ITER: 5000
+  MOMENTUM: 0.9
+  WARMUP_FACTOR: 0.3333333333333333
+  WARMUP_ITERS: 500
+  WEIGHT_DECAY: 0.0005
+TEST:
+  BATCH_SIZE: 10
+  CONFIDENCE_THRESHOLD: 0.01
+  MAX_PER_CLASS: -1
+  MAX_PER_IMAGE: 100
+  NMS_THRESHOLD: 0.45
+2020-03-22 09:44:21,947 SSD INFO: Using 1 GPUs
+2020-03-22 09:44:21,949 SSD INFO: Namespace(config_file='configs/SSD300/Resnet.yaml', distributed=False, eval_step=1000, local_rank=0, log_step=10, num_gpus=1, opts=[], save_step=6000, skip_test=False, use_tensorboard=False)
+2020-03-22 09:44:21,950 SSD INFO: Loaded configuration file configs/SSD300/Resnet.yaml
+2020-03-22 09:44:21,950 SSD INFO: 
+MODEL:
+  NUM_CLASSES: 5
+  BACKBONE:
+    NAME: "Resnet50"
+    OUT_CHANNELS: (512, 1024, 2048, 1024, 512, 256)
+  RESNET:
+    SE: True
+    CBAM: False
+    FUSION: True
+    BLOCKS: [3, 4, 6, 3]
+    EXTRAS: [512, 256, 128, 64]
+  PRIORS:
+    FEATURE_MAPS: [38, 19, 10, 5, 3, 1]
+    STRIDES: [8, 16, 32, 64, 100, 300]
+    MIN_SIZES: [21, 45, 99, 153, 207, 261]
+    MAX_SIZES: [45, 99, 153, 207, 261, 315]
+    ASPECT_RATIOS: [[2], [2, 3], [2, 3], [2, 3], [2], [2]]
+    BOXES_PER_LOCATION: [4, 6, 6, 6, 4, 4]
+INPUT:
+  IMAGE_SIZE: 300
+DATASETS:
+  TRAIN: ("coco_2019_train",)
+  TEST: ("coco_2019_val", )
+SOLVER:
+  MAX_ITER: 5000
+  LR_STEPS: [2000, 4000]
+  GAMMA: 0.1
+  BATCH_SIZE: 32
+  LR: 1e-3
+
+OUTPUT_DIR: 'outputs/test'
+2020-03-22 09:44:21,951 SSD INFO: Running with config:
+DATASETS:
+  TEST: ('coco_2019_val',)
+  TRAIN: ('coco_2019_train',)
+DATA_LOADER:
+  NUM_WORKERS: 8
+  PIN_MEMORY: True
+INPUT:
+  IMAGE_SIZE: 300
+  PIXEL_MEAN: [123, 117, 104]
+MODEL:
+  BACKBONE:
+    NAME: Resnet50
+    OUT_CHANNELS: (512, 1024, 2048, 1024, 512, 256)
+    PRETRAINED: True
+  BOX_HEAD:
+    NAME: SSDBoxHead
+    PREDICTOR: SSDBoxPredictor
+  CENTER_VARIANCE: 0.1
+  DEVICE: cuda
+  META_ARCHITECTURE: SSDDetector
+  NEG_POS_RATIO: 3
+  NUM_CLASSES: 5
+  PRIORS:
+    ASPECT_RATIOS: [[2], [2, 3], [2, 3], [2, 3], [2], [2]]
+    BOXES_PER_LOCATION: [4, 6, 6, 6, 4, 4]
+    CLIP: True
+    FEATURE_MAPS: [38, 19, 10, 5, 3, 1]
+    MAX_SIZES: [45, 99, 153, 207, 261, 315]
+    MIN_SIZES: [21, 45, 99, 153, 207, 261]
+    STRIDES: [8, 16, 32, 64, 100, 300]
+  RESNET:
+    BLOCKS: [3, 4, 6, 3]
+    CBAM: False
+    EXTRAS: [512, 256, 128, 64]
+    FUSION: True
+    SE: True
+  SIZE_VARIANCE: 0.2
+  THRESHOLD: 0.5
+OUTPUT_DIR: outputs/test
+SOLVER:
+  BATCH_SIZE: 32
+  GAMMA: 0.1
+  LR: 0.001
+  LR_STEPS: [2000, 4000]
+  MAX_ITER: 5000
+  MOMENTUM: 0.9
+  WARMUP_FACTOR: 0.3333333333333333
+  WARMUP_ITERS: 500
+  WEIGHT_DECAY: 0.0005
+TEST:
+  BATCH_SIZE: 10
+  CONFIDENCE_THRESHOLD: 0.01
+  MAX_PER_CLASS: -1
+  MAX_PER_IMAGE: 100
+  NMS_THRESHOLD: 0.45
+2020-03-22 09:44:43,527 SSD INFO: Using 1 GPUs
+2020-03-22 09:44:43,528 SSD INFO: Namespace(config_file='configs/SSD300/Resnet.yaml', distributed=False, eval_step=1000, local_rank=0, log_step=10, num_gpus=1, opts=[], save_step=6000, skip_test=False, use_tensorboard=False)
+2020-03-22 09:44:43,529 SSD INFO: Loaded configuration file configs/SSD300/Resnet.yaml
+2020-03-22 09:44:43,529 SSD INFO: 
+MODEL:
+  NUM_CLASSES: 5
+  BACKBONE:
+    NAME: "Resnet50"
+    OUT_CHANNELS: (512, 1024, 2048, 1024, 512, 256)
+  RESNET:
+    SE: True
+    CBAM: False
+    FUSION: True
+    BLOCKS: [3, 4, 6, 3]
+    EXTRAS: [512, 256, 128, 64]
+  PRIORS:
+    FEATURE_MAPS: [38, 19, 10, 5, 3, 1]
+    STRIDES: [8, 16, 32, 64, 100, 300]
+    MIN_SIZES: [21, 45, 99, 153, 207, 261]
+    MAX_SIZES: [45, 99, 153, 207, 261, 315]
+    ASPECT_RATIOS: [[2], [2, 3], [2, 3], [2, 3], [2], [2]]
+    BOXES_PER_LOCATION: [4, 6, 6, 6, 4, 4]
+INPUT:
+  IMAGE_SIZE: 300
+DATASETS:
+  TRAIN: ("coco_2019_train",)
+  TEST: ("coco_2019_val", )
+SOLVER:
+  MAX_ITER: 5000
+  LR_STEPS: [2000, 4000]
+  GAMMA: 0.1
+  BATCH_SIZE: 32
+  LR: 1e-3
+
+OUTPUT_DIR: 'outputs/test'
+2020-03-22 09:44:43,530 SSD INFO: Running with config:
+DATASETS:
+  TEST: ('coco_2019_val',)
+  TRAIN: ('coco_2019_train',)
+DATA_LOADER:
+  NUM_WORKERS: 8
+  PIN_MEMORY: True
+INPUT:
+  IMAGE_SIZE: 300
+  PIXEL_MEAN: [123, 117, 104]
+MODEL:
+  BACKBONE:
+    NAME: Resnet50
+    OUT_CHANNELS: (512, 1024, 2048, 1024, 512, 256)
+    PRETRAINED: True
+  BOX_HEAD:
+    NAME: SSDBoxHead
+    PREDICTOR: SSDBoxPredictor
+  CENTER_VARIANCE: 0.1
+  DEVICE: cuda
+  META_ARCHITECTURE: SSDDetector
+  NEG_POS_RATIO: 3
+  NUM_CLASSES: 5
+  PRIORS:
+    ASPECT_RATIOS: [[2], [2, 3], [2, 3], [2, 3], [2], [2]]
+    BOXES_PER_LOCATION: [4, 6, 6, 6, 4, 4]
+    CLIP: True
+    FEATURE_MAPS: [38, 19, 10, 5, 3, 1]
+    MAX_SIZES: [45, 99, 153, 207, 261, 315]
+    MIN_SIZES: [21, 45, 99, 153, 207, 261]
+    STRIDES: [8, 16, 32, 64, 100, 300]
+  RESNET:
+    BLOCKS: [3, 4, 6, 3]
+    CBAM: False
+    EXTRAS: [512, 256, 128, 64]
+    FUSION: True
+    SE: True
+  SIZE_VARIANCE: 0.2
+  THRESHOLD: 0.5
+OUTPUT_DIR: outputs/test
+SOLVER:
+  BATCH_SIZE: 32
+  GAMMA: 0.1
+  LR: 0.001
+  LR_STEPS: [2000, 4000]
+  MAX_ITER: 5000
+  MOMENTUM: 0.9
+  WARMUP_FACTOR: 0.3333333333333333
+  WARMUP_ITERS: 500
+  WEIGHT_DECAY: 0.0005
+TEST:
+  BATCH_SIZE: 10
+  CONFIDENCE_THRESHOLD: 0.01
+  MAX_PER_CLASS: -1
+  MAX_PER_IMAGE: 100
+  NMS_THRESHOLD: 0.45
+2020-03-22 09:45:01,647 SSD INFO: Using 1 GPUs
+2020-03-22 09:45:01,648 SSD INFO: Namespace(config_file='configs/SSD300/Resnet.yaml', distributed=False, eval_step=1000, local_rank=0, log_step=10, num_gpus=1, opts=[], save_step=6000, skip_test=False, use_tensorboard=False)
+2020-03-22 09:45:01,648 SSD INFO: Loaded configuration file configs/SSD300/Resnet.yaml
+2020-03-22 09:45:01,649 SSD INFO: 
+MODEL:
+  NUM_CLASSES: 5
+  BACKBONE:
+    NAME: "Resnet50"
+    OUT_CHANNELS: (512, 1024, 2048, 1024, 512, 256)
+  RESNET:
+    SE: True
+    CBAM: False
+    FUSION: True
+    BLOCKS: [3, 4, 6, 3]
+    EXTRAS: [512, 256, 128, 64]
+  PRIORS:
+    FEATURE_MAPS: [38, 19, 10, 5, 3, 1]
+    STRIDES: [8, 16, 32, 64, 100, 300]
+    MIN_SIZES: [21, 45, 99, 153, 207, 261]
+    MAX_SIZES: [45, 99, 153, 207, 261, 315]
+    ASPECT_RATIOS: [[2], [2, 3], [2, 3], [2, 3], [2], [2]]
+    BOXES_PER_LOCATION: [4, 6, 6, 6, 4, 4]
+INPUT:
+  IMAGE_SIZE: 300
+DATASETS:
+  TRAIN: ("coco_2019_train",)
+  TEST: ("coco_2019_val", )
+SOLVER:
+  MAX_ITER: 5000
+  LR_STEPS: [2000, 4000]
+  GAMMA: 0.1
+  BATCH_SIZE: 32
+  LR: 1e-3
+
+OUTPUT_DIR: 'outputs/test'
+2020-03-22 09:45:01,650 SSD INFO: Running with config:
+DATASETS:
+  TEST: ('coco_2019_val',)
+  TRAIN: ('coco_2019_train',)
+DATA_LOADER:
+  NUM_WORKERS: 8
+  PIN_MEMORY: True
+INPUT:
+  IMAGE_SIZE: 300
+  PIXEL_MEAN: [123, 117, 104]
+MODEL:
+  BACKBONE:
+    NAME: Resnet50
+    OUT_CHANNELS: (512, 1024, 2048, 1024, 512, 256)
+    PRETRAINED: True
+  BOX_HEAD:
+    NAME: SSDBoxHead
+    PREDICTOR: SSDBoxPredictor
+  CENTER_VARIANCE: 0.1
+  DEVICE: cuda
+  META_ARCHITECTURE: SSDDetector
+  NEG_POS_RATIO: 3
+  NUM_CLASSES: 5
+  PRIORS:
+    ASPECT_RATIOS: [[2], [2, 3], [2, 3], [2, 3], [2], [2]]
+    BOXES_PER_LOCATION: [4, 6, 6, 6, 4, 4]
+    CLIP: True
+    FEATURE_MAPS: [38, 19, 10, 5, 3, 1]
+    MAX_SIZES: [45, 99, 153, 207, 261, 315]
+    MIN_SIZES: [21, 45, 99, 153, 207, 261]
+    STRIDES: [8, 16, 32, 64, 100, 300]
+  RESNET:
+    BLOCKS: [3, 4, 6, 3]
+    CBAM: False
+    EXTRAS: [512, 256, 128, 64]
+    FUSION: True
+    SE: True
+  SIZE_VARIANCE: 0.2
+  THRESHOLD: 0.5
+OUTPUT_DIR: outputs/test
+SOLVER:
+  BATCH_SIZE: 32
+  GAMMA: 0.1
+  LR: 0.001
+  LR_STEPS: [2000, 4000]
+  MAX_ITER: 5000
+  MOMENTUM: 0.9
+  WARMUP_FACTOR: 0.3333333333333333
+  WARMUP_ITERS: 500
+  WEIGHT_DECAY: 0.0005
+TEST:
+  BATCH_SIZE: 10
+  CONFIDENCE_THRESHOLD: 0.01
+  MAX_PER_CLASS: -1
+  MAX_PER_IMAGE: 100
+  NMS_THRESHOLD: 0.45
+2020-03-22 09:45:32,731 SSD INFO: Using 1 GPUs
+2020-03-22 09:45:32,732 SSD INFO: Namespace(config_file='configs/SSD300/Resnet.yaml', distributed=False, eval_step=1000, local_rank=0, log_step=10, num_gpus=1, opts=[], save_step=6000, skip_test=False, use_tensorboard=False)
+2020-03-22 09:45:32,733 SSD INFO: Loaded configuration file configs/SSD300/Resnet.yaml
+2020-03-22 09:45:32,733 SSD INFO: 
+MODEL:
+  NUM_CLASSES: 5
+  BACKBONE:
+    NAME: "Resnet50"
+    OUT_CHANNELS: (512, 1024, 2048, 1024, 512, 256)
+  RESNET:
+    SE: True
+    CBAM: False
+    FUSION: True
+    BLOCKS: [3, 4, 6, 3]
+    EXTRAS: [512, 256, 128, 64]
+  PRIORS:
+    FEATURE_MAPS: [38, 19, 10, 5, 3, 1]
+    STRIDES: [8, 16, 32, 64, 100, 300]
+    MIN_SIZES: [21, 45, 99, 153, 207, 261]
+    MAX_SIZES: [45, 99, 153, 207, 261, 315]
+    ASPECT_RATIOS: [[2], [2, 3], [2, 3], [2, 3], [2], [2]]
+    BOXES_PER_LOCATION: [4, 6, 6, 6, 4, 4]
+INPUT:
+  IMAGE_SIZE: 300
+DATASETS:
+  TRAIN: ("coco_2019_train",)
+  TEST: ("coco_2019_val", )
+SOLVER:
+  MAX_ITER: 5000
+  LR_STEPS: [2000, 4000]
+  GAMMA: 0.1
+  BATCH_SIZE: 32
+  LR: 1e-3
+
+OUTPUT_DIR: 'outputs/test'
+2020-03-22 09:45:32,734 SSD INFO: Running with config:
+DATASETS:
+  TEST: ('coco_2019_val',)
+  TRAIN: ('coco_2019_train',)
+DATA_LOADER:
+  NUM_WORKERS: 8
+  PIN_MEMORY: True
+INPUT:
+  IMAGE_SIZE: 300
+  PIXEL_MEAN: [123, 117, 104]
+MODEL:
+  BACKBONE:
+    NAME: Resnet50
+    OUT_CHANNELS: (512, 1024, 2048, 1024, 512, 256)
+    PRETRAINED: True
+  BOX_HEAD:
+    NAME: SSDBoxHead
+    PREDICTOR: SSDBoxPredictor
+  CENTER_VARIANCE: 0.1
+  DEVICE: cuda
+  META_ARCHITECTURE: SSDDetector
+  NEG_POS_RATIO: 3
+  NUM_CLASSES: 5
+  PRIORS:
+    ASPECT_RATIOS: [[2], [2, 3], [2, 3], [2, 3], [2], [2]]
+    BOXES_PER_LOCATION: [4, 6, 6, 6, 4, 4]
+    CLIP: True
+    FEATURE_MAPS: [38, 19, 10, 5, 3, 1]
+    MAX_SIZES: [45, 99, 153, 207, 261, 315]
+    MIN_SIZES: [21, 45, 99, 153, 207, 261]
+    STRIDES: [8, 16, 32, 64, 100, 300]
+  RESNET:
+    BLOCKS: [3, 4, 6, 3]
+    CBAM: False
+    EXTRAS: [512, 256, 128, 64]
+    FUSION: True
+    SE: True
+  SIZE_VARIANCE: 0.2
+  THRESHOLD: 0.5
+OUTPUT_DIR: outputs/test
+SOLVER:
+  BATCH_SIZE: 32
+  GAMMA: 0.1
+  LR: 0.001
+  LR_STEPS: [2000, 4000]
+  MAX_ITER: 5000
+  MOMENTUM: 0.9
+  WARMUP_FACTOR: 0.3333333333333333
+  WARMUP_ITERS: 500
+  WEIGHT_DECAY: 0.0005
+TEST:
+  BATCH_SIZE: 10
+  CONFIDENCE_THRESHOLD: 0.01
+  MAX_PER_CLASS: -1
+  MAX_PER_IMAGE: 100
+  NMS_THRESHOLD: 0.45
+2020-03-22 09:46:06,360 SSD INFO: Using 1 GPUs
+2020-03-22 09:46:06,361 SSD INFO: Namespace(config_file='configs/SSD300/Resnet.yaml', distributed=False, eval_step=1000, local_rank=0, log_step=10, num_gpus=1, opts=[], save_step=6000, skip_test=False, use_tensorboard=False)
+2020-03-22 09:46:06,361 SSD INFO: Loaded configuration file configs/SSD300/Resnet.yaml
+2020-03-22 09:46:06,362 SSD INFO: 
+MODEL:
+  NUM_CLASSES: 5
+  BACKBONE:
+    NAME: "Resnet50"
+    OUT_CHANNELS: (512, 1024, 2048, 1024, 512, 256)
+  RESNET:
+    SE: True
+    CBAM: False
+    FUSION: True
+    BLOCKS: [3, 4, 6, 3]
+    EXTRAS: [512, 256, 128, 64]
+  PRIORS:
+    FEATURE_MAPS: [38, 19, 10, 5, 3, 1]
+    STRIDES: [8, 16, 32, 64, 100, 300]
+    MIN_SIZES: [21, 45, 99, 153, 207, 261]
+    MAX_SIZES: [45, 99, 153, 207, 261, 315]
+    ASPECT_RATIOS: [[2], [2, 3], [2, 3], [2, 3], [2], [2]]
+    BOXES_PER_LOCATION: [4, 6, 6, 6, 4, 4]
+INPUT:
+  IMAGE_SIZE: 300
+DATASETS:
+  TRAIN: ("coco_2019_train",)
+  TEST: ("coco_2019_val", )
+SOLVER:
+  MAX_ITER: 5000
+  LR_STEPS: [2000, 4000]
+  GAMMA: 0.1
+  BATCH_SIZE: 32
+  LR: 1e-3
+
+OUTPUT_DIR: 'outputs/test'
+2020-03-22 09:46:06,363 SSD INFO: Running with config:
+DATASETS:
+  TEST: ('coco_2019_val',)
+  TRAIN: ('coco_2019_train',)
+DATA_LOADER:
+  NUM_WORKERS: 8
+  PIN_MEMORY: True
+INPUT:
+  IMAGE_SIZE: 300
+  PIXEL_MEAN: [123, 117, 104]
+MODEL:
+  BACKBONE:
+    NAME: Resnet50
+    OUT_CHANNELS: (512, 1024, 2048, 1024, 512, 256)
+    PRETRAINED: True
+  BOX_HEAD:
+    NAME: SSDBoxHead
+    PREDICTOR: SSDBoxPredictor
+  CENTER_VARIANCE: 0.1
+  DEVICE: cuda
+  META_ARCHITECTURE: SSDDetector
+  NEG_POS_RATIO: 3
+  NUM_CLASSES: 5
+  PRIORS:
+    ASPECT_RATIOS: [[2], [2, 3], [2, 3], [2, 3], [2], [2]]
+    BOXES_PER_LOCATION: [4, 6, 6, 6, 4, 4]
+    CLIP: True
+    FEATURE_MAPS: [38, 19, 10, 5, 3, 1]
+    MAX_SIZES: [45, 99, 153, 207, 261, 315]
+    MIN_SIZES: [21, 45, 99, 153, 207, 261]
+    STRIDES: [8, 16, 32, 64, 100, 300]
+  RESNET:
+    BLOCKS: [3, 4, 6, 3]
+    CBAM: False
+    EXTRAS: [512, 256, 128, 64]
+    FUSION: True
+    SE: True
+  SIZE_VARIANCE: 0.2
+  THRESHOLD: 0.5
+OUTPUT_DIR: outputs/test
+SOLVER:
+  BATCH_SIZE: 32
+  GAMMA: 0.1
+  LR: 0.001
+  LR_STEPS: [2000, 4000]
+  MAX_ITER: 5000
+  MOMENTUM: 0.9
+  WARMUP_FACTOR: 0.3333333333333333
+  WARMUP_ITERS: 500
+  WEIGHT_DECAY: 0.0005
+TEST:
+  BATCH_SIZE: 10
+  CONFIDENCE_THRESHOLD: 0.01
+  MAX_PER_CLASS: -1
+  MAX_PER_IMAGE: 100
+  NMS_THRESHOLD: 0.45
+2020-03-22 09:51:03,786 SSD INFO: Using 1 GPUs
+2020-03-22 09:51:03,786 SSD INFO: Namespace(config_file='configs/SSD300/Resnet.yaml', distributed=False, eval_step=1000, local_rank=0, log_step=10, num_gpus=1, opts=[], save_step=6000, skip_test=False, use_tensorboard=False)
+2020-03-22 09:51:03,786 SSD INFO: Loaded configuration file configs/SSD300/Resnet.yaml
+2020-03-22 09:51:03,787 SSD INFO: 
+MODEL:
+  NUM_CLASSES: 5
+  BACKBONE:
+    NAME: "Resnet50"
+    OUT_CHANNELS: (512, 1024, 2048, 1024, 512, 256)
+  RESNET:
+    SE: True
+    CBAM: False
+    FUSION: True
+    BLOCKS: [3, 4, 6, 3]
+    EXTRAS: [512, 256, 128, 64]
+  PRIORS:
+    FEATURE_MAPS: [38, 19, 10, 5, 3, 1]
+    STRIDES: [8, 16, 32, 64, 100, 300]
+    MIN_SIZES: [21, 45, 99, 153, 207, 261]
+    MAX_SIZES: [45, 99, 153, 207, 261, 315]
+    ASPECT_RATIOS: [[2], [2, 3], [2, 3], [2, 3], [2], [2]]
+    BOXES_PER_LOCATION: [4, 6, 6, 6, 4, 4]
+INPUT:
+  IMAGE_SIZE: 300
+DATASETS:
+  TRAIN: ("coco_2019_train",)
+  TEST: ("coco_2019_val", )
+SOLVER:
+  MAX_ITER: 5000
+  LR_STEPS: [2000, 4000]
+  GAMMA: 0.1
+  BATCH_SIZE: 32
+  LR: 1e-3
+
+OUTPUT_DIR: 'outputs/test'
+2020-03-22 09:51:03,787 SSD INFO: Running with config:
+DATASETS:
+  TEST: ('coco_2019_val',)
+  TRAIN: ('coco_2019_train',)
+DATA_LOADER:
+  NUM_WORKERS: 8
+  PIN_MEMORY: True
+INPUT:
+  IMAGE_SIZE: 300
+  PIXEL_MEAN: [123, 117, 104]
+MODEL:
+  BACKBONE:
+    NAME: Resnet50
+    OUT_CHANNELS: (512, 1024, 2048, 1024, 512, 256)
+    PRETRAINED: True
+  BOX_HEAD:
+    NAME: SSDBoxHead
+    PREDICTOR: SSDBoxPredictor
+  CENTER_VARIANCE: 0.1
+  DEVICE: cuda
+  META_ARCHITECTURE: SSDDetector
+  NEG_POS_RATIO: 3
+  NUM_CLASSES: 5
+  PRIORS:
+    ASPECT_RATIOS: [[2], [2, 3], [2, 3], [2, 3], [2], [2]]
+    BOXES_PER_LOCATION: [4, 6, 6, 6, 4, 4]
+    CLIP: True
+    FEATURE_MAPS: [38, 19, 10, 5, 3, 1]
+    MAX_SIZES: [45, 99, 153, 207, 261, 315]
+    MIN_SIZES: [21, 45, 99, 153, 207, 261]
+    STRIDES: [8, 16, 32, 64, 100, 300]
+  RESNET:
+    BLOCKS: [3, 4, 6, 3]
+    CBAM: False
+    EXTRAS: [512, 256, 128, 64]
+    FUSION: True
+    SE: True
+  SIZE_VARIANCE: 0.2
+  THRESHOLD: 0.5
+OUTPUT_DIR: outputs/test
+SOLVER:
+  BATCH_SIZE: 32
+  GAMMA: 0.1
+  LR: 0.001
+  LR_STEPS: [2000, 4000]
+  MAX_ITER: 5000
+  MOMENTUM: 0.9
+  WARMUP_FACTOR: 0.3333333333333333
+  WARMUP_ITERS: 500
+  WEIGHT_DECAY: 0.0005
+TEST:
+  BATCH_SIZE: 10
+  CONFIDENCE_THRESHOLD: 0.01
+  MAX_PER_CLASS: -1
+  MAX_PER_IMAGE: 100
+  NMS_THRESHOLD: 0.45
+2020-03-22 09:53:02,697 SSD INFO: Using 1 GPUs
+2020-03-22 09:53:02,697 SSD INFO: Namespace(config_file='configs/SSD300/Resnet.yaml', distributed=False, eval_step=1000, local_rank=0, log_step=10, num_gpus=1, opts=[], save_step=6000, skip_test=False, use_tensorboard=False)
+2020-03-22 09:53:02,698 SSD INFO: Loaded configuration file configs/SSD300/Resnet.yaml
+2020-03-22 09:53:02,698 SSD INFO: 
+MODEL:
+  NUM_CLASSES: 5
+  BACKBONE:
+    NAME: "Resnet50"
+    OUT_CHANNELS: (512, 1024, 2048, 1024, 512, 256)
+  RESNET:
+    SE: True
+    CBAM: False
+    FUSION: True
+    BLOCKS: [3, 4, 6, 3]
+    EXTRAS: [512, 256, 128, 64]
+  PRIORS:
+    FEATURE_MAPS: [38, 19, 10, 5, 3, 1]
+    STRIDES: [8, 16, 32, 64, 100, 300]
+    MIN_SIZES: [21, 45, 99, 153, 207, 261]
+    MAX_SIZES: [45, 99, 153, 207, 261, 315]
+    ASPECT_RATIOS: [[2], [2, 3], [2, 3], [2, 3], [2], [2]]
+    BOXES_PER_LOCATION: [4, 6, 6, 6, 4, 4]
+INPUT:
+  IMAGE_SIZE: 300
+DATASETS:
+  TRAIN: ("coco_2019_train",)
+  TEST: ("coco_2019_val", )
+SOLVER:
+  MAX_ITER: 5000
+  LR_STEPS: [2000, 4000]
+  GAMMA: 0.1
+  BATCH_SIZE: 32
+  LR: 1e-3
+
+OUTPUT_DIR: 'outputs/test'
+2020-03-22 09:53:02,699 SSD INFO: Running with config:
+DATASETS:
+  TEST: ('coco_2019_val',)
+  TRAIN: ('coco_2019_train',)
+DATA_LOADER:
+  NUM_WORKERS: 8
+  PIN_MEMORY: True
+INPUT:
+  IMAGE_SIZE: 300
+  PIXEL_MEAN: [123, 117, 104]
+MODEL:
+  BACKBONE:
+    NAME: Resnet50
+    OUT_CHANNELS: (512, 1024, 2048, 1024, 512, 256)
+    PRETRAINED: True
+  BOX_HEAD:
+    NAME: SSDBoxHead
+    PREDICTOR: SSDBoxPredictor
+  CENTER_VARIANCE: 0.1
+  DEVICE: cuda
+  META_ARCHITECTURE: SSDDetector
+  NEG_POS_RATIO: 3
+  NUM_CLASSES: 5
+  PRIORS:
+    ASPECT_RATIOS: [[2], [2, 3], [2, 3], [2, 3], [2], [2]]
+    BOXES_PER_LOCATION: [4, 6, 6, 6, 4, 4]
+    CLIP: True
+    FEATURE_MAPS: [38, 19, 10, 5, 3, 1]
+    MAX_SIZES: [45, 99, 153, 207, 261, 315]
+    MIN_SIZES: [21, 45, 99, 153, 207, 261]
+    STRIDES: [8, 16, 32, 64, 100, 300]
+  RESNET:
+    BLOCKS: [3, 4, 6, 3]
+    CBAM: False
+    EXTRAS: [512, 256, 128, 64]
+    FUSION: True
+    SE: True
+  SIZE_VARIANCE: 0.2
+  THRESHOLD: 0.5
+OUTPUT_DIR: outputs/test
+SOLVER:
+  BATCH_SIZE: 32
+  GAMMA: 0.1
+  LR: 0.001
+  LR_STEPS: [2000, 4000]
+  MAX_ITER: 5000
+  MOMENTUM: 0.9
+  WARMUP_FACTOR: 0.3333333333333333
+  WARMUP_ITERS: 500
+  WEIGHT_DECAY: 0.0005
+TEST:
+  BATCH_SIZE: 10
+  CONFIDENCE_THRESHOLD: 0.01
+  MAX_PER_CLASS: -1
+  MAX_PER_IMAGE: 100
+  NMS_THRESHOLD: 0.45
+2020-03-22 09:58:46,716 SSD INFO: Using 1 GPUs
+2020-03-22 09:58:46,717 SSD INFO: Namespace(config_file='configs/SSD300/Resnet.yaml', distributed=False, eval_step=1000, local_rank=0, log_step=10, num_gpus=1, opts=[], save_step=6000, skip_test=False, use_tensorboard=False)
+2020-03-22 09:58:46,717 SSD INFO: Loaded configuration file configs/SSD300/Resnet.yaml
+2020-03-22 09:58:46,718 SSD INFO: 
+MODEL:
+  NUM_CLASSES: 5
+  BACKBONE:
+    NAME: "Resnet50"
+    OUT_CHANNELS: (512, 1024, 2048, 1024, 512, 256)
+  RESNET:
+    SE: True
+    CBAM: False
+    FUSION: True
+    BLOCKS: [3, 4, 6, 3]
+    EXTRAS: [512, 256, 128, 64]
+  PRIORS:
+    FEATURE_MAPS: [38, 19, 10, 5, 3, 1]
+    STRIDES: [8, 16, 32, 64, 100, 300]
+    MIN_SIZES: [21, 45, 99, 153, 207, 261]
+    MAX_SIZES: [45, 99, 153, 207, 261, 315]
+    ASPECT_RATIOS: [[2], [2, 3], [2, 3], [2, 3], [2], [2]]
+    BOXES_PER_LOCATION: [4, 6, 6, 6, 4, 4]
+INPUT:
+  IMAGE_SIZE: 300
+DATASETS:
+  TRAIN: ("coco_2019_train",)
+  TEST: ("coco_2019_val", )
+SOLVER:
+  MAX_ITER: 5000
+  LR_STEPS: [2000, 4000]
+  GAMMA: 0.1
+  BATCH_SIZE: 32
+  LR: 1e-3
+
+OUTPUT_DIR: 'outputs/test'
+2020-03-22 09:58:46,719 SSD INFO: Running with config:
+DATASETS:
+  TEST: ('coco_2019_val',)
+  TRAIN: ('coco_2019_train',)
+DATA_LOADER:
+  NUM_WORKERS: 8
+  PIN_MEMORY: True
+INPUT:
+  IMAGE_SIZE: 300
+  PIXEL_MEAN: [123, 117, 104]
+MODEL:
+  BACKBONE:
+    NAME: Resnet50
+    OUT_CHANNELS: (512, 1024, 2048, 1024, 512, 256)
+    PRETRAINED: True
+  BOX_HEAD:
+    NAME: SSDBoxHead
+    PREDICTOR: SSDBoxPredictor
+  CENTER_VARIANCE: 0.1
+  DEVICE: cuda
+  META_ARCHITECTURE: SSDDetector
+  NEG_POS_RATIO: 3
+  NUM_CLASSES: 5
+  PRIORS:
+    ASPECT_RATIOS: [[2], [2, 3], [2, 3], [2, 3], [2], [2]]
+    BOXES_PER_LOCATION: [4, 6, 6, 6, 4, 4]
+    CLIP: True
+    FEATURE_MAPS: [38, 19, 10, 5, 3, 1]
+    MAX_SIZES: [45, 99, 153, 207, 261, 315]
+    MIN_SIZES: [21, 45, 99, 153, 207, 261]
+    STRIDES: [8, 16, 32, 64, 100, 300]
+  RESNET:
+    BLOCKS: [3, 4, 6, 3]
+    CBAM: False
+    EXTRAS: [512, 256, 128, 64]
+    FUSION: True
+    SE: True
+  SIZE_VARIANCE: 0.2
+  THRESHOLD: 0.5
+OUTPUT_DIR: outputs/test
+SOLVER:
+  BATCH_SIZE: 32
+  GAMMA: 0.1
+  LR: 0.001
+  LR_STEPS: [2000, 4000]
+  MAX_ITER: 5000
+  MOMENTUM: 0.9
+  WARMUP_FACTOR: 0.3333333333333333
+  WARMUP_ITERS: 500
+  WEIGHT_DECAY: 0.0005
+TEST:
+  BATCH_SIZE: 10
+  CONFIDENCE_THRESHOLD: 0.01
+  MAX_PER_CLASS: -1
+  MAX_PER_IMAGE: 100
+  NMS_THRESHOLD: 0.45
+2020-03-22 10:00:14,892 SSD INFO: Using 1 GPUs
+2020-03-22 10:00:14,893 SSD INFO: Namespace(config_file='configs/SSD300/Resnet.yaml', distributed=False, eval_step=1000, local_rank=0, log_step=10, num_gpus=1, opts=[], save_step=6000, skip_test=False, use_tensorboard=False)
+2020-03-22 10:00:14,893 SSD INFO: Loaded configuration file configs/SSD300/Resnet.yaml
+2020-03-22 10:00:14,894 SSD INFO: 
+MODEL:
+  NUM_CLASSES: 5
+  BACKBONE:
+    NAME: "Resnet50"
+    OUT_CHANNELS: (512, 1024, 2048, 1024, 512, 256)
+  RESNET:
+    SE: True
+    CBAM: False
+    FUSION: True
+    BLOCKS: [3, 4, 6, 3]
+    EXTRAS: [512, 256, 128, 64]
+  PRIORS:
+    FEATURE_MAPS: [38, 19, 10, 5, 3, 1]
+    STRIDES: [8, 16, 32, 64, 100, 300]
+    MIN_SIZES: [21, 45, 99, 153, 207, 261]
+    MAX_SIZES: [45, 99, 153, 207, 261, 315]
+    ASPECT_RATIOS: [[2], [2, 3], [2, 3], [2, 3], [2], [2]]
+    BOXES_PER_LOCATION: [4, 6, 6, 6, 4, 4]
+INPUT:
+  IMAGE_SIZE: 300
+DATASETS:
+  TRAIN: ("coco_2019_train",)
+  TEST: ("coco_2019_val", )
+SOLVER:
+  MAX_ITER: 5000
+  LR_STEPS: [2000, 4000]
+  GAMMA: 0.1
+  BATCH_SIZE: 32
+  LR: 1e-3
+
+OUTPUT_DIR: 'outputs/test'
+2020-03-22 10:00:14,895 SSD INFO: Running with config:
+DATASETS:
+  TEST: ('coco_2019_val',)
+  TRAIN: ('coco_2019_train',)
+DATA_LOADER:
+  NUM_WORKERS: 8
+  PIN_MEMORY: True
+INPUT:
+  IMAGE_SIZE: 300
+  PIXEL_MEAN: [123, 117, 104]
+MODEL:
+  BACKBONE:
+    NAME: Resnet50
+    OUT_CHANNELS: (512, 1024, 2048, 1024, 512, 256)
+    PRETRAINED: True
+  BOX_HEAD:
+    NAME: SSDBoxHead
+    PREDICTOR: SSDBoxPredictor
+  CENTER_VARIANCE: 0.1
+  DEVICE: cuda
+  META_ARCHITECTURE: SSDDetector
+  NEG_POS_RATIO: 3
+  NUM_CLASSES: 5
+  PRIORS:
+    ASPECT_RATIOS: [[2], [2, 3], [2, 3], [2, 3], [2], [2]]
+    BOXES_PER_LOCATION: [4, 6, 6, 6, 4, 4]
+    CLIP: True
+    FEATURE_MAPS: [38, 19, 10, 5, 3, 1]
+    MAX_SIZES: [45, 99, 153, 207, 261, 315]
+    MIN_SIZES: [21, 45, 99, 153, 207, 261]
+    STRIDES: [8, 16, 32, 64, 100, 300]
+  RESNET:
+    BLOCKS: [3, 4, 6, 3]
+    CBAM: False
+    EXTRAS: [512, 256, 128, 64]
+    FUSION: True
+    SE: True
+  SIZE_VARIANCE: 0.2
+  THRESHOLD: 0.5
+OUTPUT_DIR: outputs/test
+SOLVER:
+  BATCH_SIZE: 32
+  GAMMA: 0.1
+  LR: 0.001
+  LR_STEPS: [2000, 4000]
+  MAX_ITER: 5000
+  MOMENTUM: 0.9
+  WARMUP_FACTOR: 0.3333333333333333
+  WARMUP_ITERS: 500
+  WEIGHT_DECAY: 0.0005
+TEST:
+  BATCH_SIZE: 10
+  CONFIDENCE_THRESHOLD: 0.01
+  MAX_PER_CLASS: -1
+  MAX_PER_IMAGE: 100
+  NMS_THRESHOLD: 0.45
+2020-03-22 10:01:19,965 SSD INFO: Using 1 GPUs
+2020-03-22 10:01:19,965 SSD INFO: Namespace(config_file='configs/SSD300/Resnet.yaml', distributed=False, eval_step=1000, local_rank=0, log_step=10, num_gpus=1, opts=[], save_step=6000, skip_test=False, use_tensorboard=False)
+2020-03-22 10:01:19,966 SSD INFO: Loaded configuration file configs/SSD300/Resnet.yaml
+2020-03-22 10:01:19,966 SSD INFO: 
+MODEL:
+  NUM_CLASSES: 5
+  BACKBONE:
+    NAME: "Resnet50"
+    OUT_CHANNELS: (512, 1024, 2048, 1024, 512, 256)
+  RESNET:
+    SE: True
+    CBAM: False
+    FUSION: True
+    BLOCKS: [3, 4, 6, 3]
+    EXTRAS: [512, 256, 128, 64]
+  PRIORS:
+    FEATURE_MAPS: [38, 19, 10, 5, 3, 1]
+    STRIDES: [8, 16, 32, 64, 100, 300]
+    MIN_SIZES: [21, 45, 99, 153, 207, 261]
+    MAX_SIZES: [45, 99, 153, 207, 261, 315]
+    ASPECT_RATIOS: [[2], [2, 3], [2, 3], [2, 3], [2], [2]]
+    BOXES_PER_LOCATION: [4, 6, 6, 6, 4, 4]
+INPUT:
+  IMAGE_SIZE: 300
+DATASETS:
+  TRAIN: ("coco_2019_train",)
+  TEST: ("coco_2019_val", )
+SOLVER:
+  MAX_ITER: 5000
+  LR_STEPS: [2000, 4000]
+  GAMMA: 0.1
+  BATCH_SIZE: 32
+  LR: 1e-3
+
+OUTPUT_DIR: 'outputs/test'
+2020-03-22 10:01:19,967 SSD INFO: Running with config:
+DATASETS:
+  TEST: ('coco_2019_val',)
+  TRAIN: ('coco_2019_train',)
+DATA_LOADER:
+  NUM_WORKERS: 8
+  PIN_MEMORY: True
+INPUT:
+  IMAGE_SIZE: 300
+  PIXEL_MEAN: [123, 117, 104]
+MODEL:
+  BACKBONE:
+    NAME: Resnet50
+    OUT_CHANNELS: (512, 1024, 2048, 1024, 512, 256)
+    PRETRAINED: True
+  BOX_HEAD:
+    NAME: SSDBoxHead
+    PREDICTOR: SSDBoxPredictor
+  CENTER_VARIANCE: 0.1
+  DEVICE: cuda
+  META_ARCHITECTURE: SSDDetector
+  NEG_POS_RATIO: 3
+  NUM_CLASSES: 5
+  PRIORS:
+    ASPECT_RATIOS: [[2], [2, 3], [2, 3], [2, 3], [2], [2]]
+    BOXES_PER_LOCATION: [4, 6, 6, 6, 4, 4]
+    CLIP: True
+    FEATURE_MAPS: [38, 19, 10, 5, 3, 1]
+    MAX_SIZES: [45, 99, 153, 207, 261, 315]
+    MIN_SIZES: [21, 45, 99, 153, 207, 261]
+    STRIDES: [8, 16, 32, 64, 100, 300]
+  RESNET:
+    BLOCKS: [3, 4, 6, 3]
+    CBAM: False
+    EXTRAS: [512, 256, 128, 64]
+    FUSION: True
+    SE: True
+  SIZE_VARIANCE: 0.2
+  THRESHOLD: 0.5
+OUTPUT_DIR: outputs/test
+SOLVER:
+  BATCH_SIZE: 32
+  GAMMA: 0.1
+  LR: 0.001
+  LR_STEPS: [2000, 4000]
+  MAX_ITER: 5000
+  MOMENTUM: 0.9
+  WARMUP_FACTOR: 0.3333333333333333
+  WARMUP_ITERS: 500
+  WEIGHT_DECAY: 0.0005
+TEST:
+  BATCH_SIZE: 10
+  CONFIDENCE_THRESHOLD: 0.01
+  MAX_PER_CLASS: -1
+  MAX_PER_IMAGE: 100
+  NMS_THRESHOLD: 0.45
+2020-03-22 10:02:34,173 SSD INFO: Using 1 GPUs
+2020-03-22 10:02:34,173 SSD INFO: Namespace(config_file='configs/SSD300/Resnet.yaml', distributed=False, eval_step=1000, local_rank=0, log_step=10, num_gpus=1, opts=[], save_step=6000, skip_test=False, use_tensorboard=False)
+2020-03-22 10:02:34,173 SSD INFO: Loaded configuration file configs/SSD300/Resnet.yaml
+2020-03-22 10:02:34,174 SSD INFO: 
+MODEL:
+  NUM_CLASSES: 5
+  BACKBONE:
+    NAME: "Resnet50"
+    OUT_CHANNELS: (512, 1024, 2048, 1024, 512, 256)
+  RESNET:
+    SE: True
+    CBAM: False
+    FUSION: True
+    BLOCKS: [3, 4, 6, 3]
+    EXTRAS: [512, 256, 128, 64]
+  PRIORS:
+    FEATURE_MAPS: [38, 19, 10, 5, 3, 1]
+    STRIDES: [8, 16, 32, 64, 100, 300]
+    MIN_SIZES: [21, 45, 99, 153, 207, 261]
+    MAX_SIZES: [45, 99, 153, 207, 261, 315]
+    ASPECT_RATIOS: [[2], [2, 3], [2, 3], [2, 3], [2], [2]]
+    BOXES_PER_LOCATION: [4, 6, 6, 6, 4, 4]
+INPUT:
+  IMAGE_SIZE: 300
+DATASETS:
+  TRAIN: ("coco_2019_train",)
+  TEST: ("coco_2019_val", )
+SOLVER:
+  MAX_ITER: 5000
+  LR_STEPS: [2000, 4000]
+  GAMMA: 0.1
+  BATCH_SIZE: 32
+  LR: 1e-3
+
+OUTPUT_DIR: 'outputs/test'
+2020-03-22 10:02:34,174 SSD INFO: Running with config:
+DATASETS:
+  TEST: ('coco_2019_val',)
+  TRAIN: ('coco_2019_train',)
+DATA_LOADER:
+  NUM_WORKERS: 8
+  PIN_MEMORY: True
+INPUT:
+  IMAGE_SIZE: 300
+  PIXEL_MEAN: [123, 117, 104]
+MODEL:
+  BACKBONE:
+    NAME: Resnet50
+    OUT_CHANNELS: (512, 1024, 2048, 1024, 512, 256)
+    PRETRAINED: True
+  BOX_HEAD:
+    NAME: SSDBoxHead
+    PREDICTOR: SSDBoxPredictor
+  CENTER_VARIANCE: 0.1
+  DEVICE: cuda
+  META_ARCHITECTURE: SSDDetector
+  NEG_POS_RATIO: 3
+  NUM_CLASSES: 5
+  PRIORS:
+    ASPECT_RATIOS: [[2], [2, 3], [2, 3], [2, 3], [2], [2]]
+    BOXES_PER_LOCATION: [4, 6, 6, 6, 4, 4]
+    CLIP: True
+    FEATURE_MAPS: [38, 19, 10, 5, 3, 1]
+    MAX_SIZES: [45, 99, 153, 207, 261, 315]
+    MIN_SIZES: [21, 45, 99, 153, 207, 261]
+    STRIDES: [8, 16, 32, 64, 100, 300]
+  RESNET:
+    BLOCKS: [3, 4, 6, 3]
+    CBAM: False
+    EXTRAS: [512, 256, 128, 64]
+    FUSION: True
+    SE: True
+  SIZE_VARIANCE: 0.2
+  THRESHOLD: 0.5
+OUTPUT_DIR: outputs/test
+SOLVER:
+  BATCH_SIZE: 32
+  GAMMA: 0.1
+  LR: 0.001
+  LR_STEPS: [2000, 4000]
+  MAX_ITER: 5000
+  MOMENTUM: 0.9
+  WARMUP_FACTOR: 0.3333333333333333
+  WARMUP_ITERS: 500
+  WEIGHT_DECAY: 0.0005
+TEST:
+  BATCH_SIZE: 10
+  CONFIDENCE_THRESHOLD: 0.01
+  MAX_PER_CLASS: -1
+  MAX_PER_IMAGE: 100
+  NMS_THRESHOLD: 0.45

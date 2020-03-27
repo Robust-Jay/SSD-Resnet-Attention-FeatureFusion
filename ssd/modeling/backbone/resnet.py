@@ -1,6 +1,7 @@
 import torch.nn as nn
 from ssd.modeling import registry
 from ssd.utils.model_zoo import load_state_dict_from_url
+import torch
 
 model_urls = {
     'resnet18': 'https://download.pytorch.org/models/resnet18-5c106cde.pth',
@@ -204,6 +205,31 @@ class Bottleneck(nn.Module):
 
         return out
 
+class ff(nn.Module):
+    def __init__(self, planes1, planes2):
+        super(ff, self).__init__()
+        self.fu_conv1 = nn.Conv2d(planes1, planes1, kernel_size=3, stride=1, padding=1)
+        self.fu_bn1 = nn.BatchNorm2d(planes1)
+        self.fu_relu = nn.ReLU(inplace=True)
+
+        self.fu_deconv = nn.ConvTranspose2d(planes2, planes1, kernel_size=3, stride=2,
+                                            padding=1, output_padding=1)
+        self.fu_conv2 = nn.Conv2d(planes1, planes1, kernel_size=3, stride=1, padding=1)
+        self.fu_bn2 = nn.BatchNorm2d(planes1)
+        self.fu_conv3 = nn.Conv2d(planes2, planes1, kernel_size=3, stride=1, padding=1)
+
+    def forward(self, x1, x2):
+        x1 = self.fu_conv1(x1)
+        x1 = self.fu_bn1(x1)
+        x1 = self.fu_relu(x1)
+
+        x2 = self.fu_deconv(x2)
+        x2 = self.fu_conv2(x2)
+        x2 = self.fu_bn2(x2)
+        x2 = self.fu_relu(x2)
+
+        return self.fu_conv3(torch.cat([x1, x2], dim=1))
+
 
 class ResNet(nn.Module):
     def __init__(self, block = None, blocks = None, zero_init_residual = False,
@@ -239,7 +265,8 @@ class ResNet(nn.Module):
         self.layer2 = self._make_layer(block, 128, self.blocks[1], stride = 2,
                                        dilate = replace_stride_with_dilation[0])
         if self.fusion:
-            self._add_fusion_layer(512, 1024)
+            #self._add_fusion_layer(512, 1024)
+            self.ff = ff(512, 1024)
         self.layer3 = self._make_layer(block, 256, self.blocks[2], stride = 2,
                                        dilate = replace_stride_with_dilation[1])
         self.layer4 = self._make_layer(block, 512, self.blocks[3], stride = 2,
@@ -285,12 +312,16 @@ class ResNet(nn.Module):
 
     def _add_extras(self, block, extras):
         layers = []
-        layers += self._make_layer(block, extras[1], 1, stride = 2)
-
-        in_channels = extras[1] * block.expansion
-        for _, v in enumerate(extras[2:]):
-            layers += [nn.Conv2d(in_channels, v * block.expansion, kernel_size = 3)]
-            in_channels = v * block.expansion
+        layers += self._make_layer(block, extras[1], 2, stride = 2)
+        layers += self._make_layer(block, extras[2], 2, stride=2)
+        layers += self._make_layer(block, extras[3], 2, stride=2)
+        # in_channels = extras[1] * block.expansion
+        # for _, v in enumerate(extras[2:]):
+        #     layers += [nn.Conv2d(in_channels, v * block.expansion, kernel_size = 3), nn.BatchNorm2d(v * block.expansion)]
+        #     in_channels = v * block.expansion
+        layers += nn.Sequential(nn.Conv2d(256, extras[3] * block.expansion, kernel_size=2),
+                                nn.BatchNorm2d(256),
+                                nn.ReLU(inplace=True))
         return layers
 
     def forward(self, x):
@@ -305,28 +336,25 @@ class ResNet(nn.Module):
 
         x = self.layer2(x)
 
+        x_ = self.layer3(x)
         if self.fusion:
-            x1 = x
-            x2 = self.layer3(x1)
-            x1 = self.fu_conv1(x1)
-            x1 = self.fu_bn1(x1)
-            x1 = self.fu_relu1(x1)
-
-            x2 = self.fu_deconv(x2)
-            x2 = self.fu_conv2(x2)
-            x2 = self.fu_bn2(x2)
-            x2 = self.fu_relu2(x2)
-
-            y = torch.cat([x1, x2], dim=1)
-            y = self.fu_conv3(y)
-            features.append(y)
+            features.append(self.ff(x, x_))
+            # x1 = self.fu_conv1(x)
+            # #x1 = self.fu_bn1(x1)
+            # #x1 = self.fu_relu1(x1)
+            #
+            # x2 = self.fu_deconv(x_)
+            # x2 = self.fu_conv2(x2)
+            # #x2 = self.fu_bn2(x2)
+            # #x2 = self.fu_relu2(x2)
+            #
+            # features.append(self.fu_conv3(torch.cat([x1, x2], dim=1)))
         else:
             features.append(x)
 
-        x = self.layer3(x)
-        features.append(x)
+        features.append(x_)
 
-        x = self.layer4(x)
+        x = self.layer4(x_)
         features.append(x)
 
         x = self.extra_layers[0](x)
@@ -336,6 +364,7 @@ class ResNet(nn.Module):
         features.append(x)
 
         x = self.extra_layers[2](x)
+        x = self.extra_layers[3](x)
         features.append(x)
 
         return tuple(features)
@@ -452,6 +481,11 @@ def wide_resnet101_2(cfg, pretrained=True):
 if __name__ == '__main__':
     import torch
     from torchsummary import summary
-    resnet = ResNet(block = Bottleneck, blocks = [3, 4, 6, 3], extras = [512, 256, 128, 64], se = True, cbam = False, fusion = False)
+    from thop.profile import profile
+    resnet = ResNet(block = Bottleneck, blocks = [3, 4, 6, 3], extras = [512, 256, 128, 64], se = False, cbam = False, fusion = False)
     summary(resnet, (3, 300, 300))
     print(resnet)
+    #device = torch.device('cpu')
+    #inputs = torch.randn((1, 3, 300, 300)).to(device)
+    #total_ops, total_params = profile(resnet, (inputs,), verbose=False)
+    #print("%.2f | %.2f" % (total_params / (1000 ** 2), total_ops / (1000 ** 3)))
