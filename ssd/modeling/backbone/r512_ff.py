@@ -358,9 +358,9 @@ if __name__ == '__main__':
     from torchsummary import summary
     from thop.profile import profile
     resnet = ResNet(block = Bottleneck, blocks = [3, 4, 6, 3], extras = [128, 256, 512, 256, 128, 64, 128], se = False)
-    # summary(resnet, (3, 512, 512))
-    #     # print(resnet)
-    device = torch.device('cpu')
-    inputs = torch.randn((1, 3, 512, 512)).to(device)
-    total_ops, total_params = profile(resnet, (inputs,), verbose=False)
-    print("%.2f | %.2f" % (total_params / (1000 ** 2), total_ops / (1000 ** 3)))
+    summary(resnet, (3, 512, 512))
+    print(resnet)
+    # device = torch.device('cpu')
+    #     # inputs = torch.randn((1, 3, 512, 512)).to(device)
+    #     # total_ops, total_params = profile(resnet, (inputs,), verbose=False)
+    #     # print("%.2f | %.2f" % (total_params / (1000 ** 2), total_ops / (1000 ** 3)))

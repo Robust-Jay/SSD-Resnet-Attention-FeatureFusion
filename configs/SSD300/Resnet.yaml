@@ -6,9 +6,9 @@ MODEL:
   RESNET:
     SE: True
     CBAM: False
-    FUSION: True
+    FUSION: False
     BLOCKS: [3, 4, 6, 3]
-    EXTRAS: [512, 256, 128, 64]
+    EXTRAS: [512, 256, 64, 64]
   PRIORS:
     FEATURE_MAPS: [38, 19, 10, 5, 3, 1]
     STRIDES: [8, 16, 32, 64, 100, 300]

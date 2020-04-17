@@ -312,13 +312,10 @@ class ResNet(nn.Module):
 
     def _add_extras(self, block, extras):
         layers = []
-        layers += self._make_layer(block, extras[1], 2, stride = 2)
+        layers += self._make_layer(block, extras[0], 2, stride = 2)
+        layers += self._make_layer(block, extras[1], 2, stride=2)
         layers += self._make_layer(block, extras[2], 2, stride=2)
-        layers += self._make_layer(block, extras[3], 2, stride=2)
-        # in_channels = extras[1] * block.expansion
-        # for _, v in enumerate(extras[2:]):
-        #     layers += [nn.Conv2d(in_channels, v * block.expansion, kernel_size = 3), nn.BatchNorm2d(v * block.expansion)]
-        #     in_channels = v * block.expansion
+
         layers += nn.Sequential(nn.Conv2d(256, extras[3] * block.expansion, kernel_size=2),
                                 nn.BatchNorm2d(256),
                                 nn.ReLU(inplace=True))
@@ -358,13 +355,19 @@ class ResNet(nn.Module):
         features.append(x)
 
         x = self.extra_layers[0](x)
-        features.append(x)
-
         x = self.extra_layers[1](x)
         features.append(x)
 
         x = self.extra_layers[2](x)
         x = self.extra_layers[3](x)
+        features.append(x)
+
+        x = self.extra_layers[4](x)
+        x = self.extra_layers[5](x)
+        x = self.extra_layers[6](x)
+        x = self.extra_layers[7](x)
+        x = self.extra_layers[8](x)
+
         features.append(x)
 
         return tuple(features)
@@ -482,7 +485,7 @@ if __name__ == '__main__':
     import torch
     from torchsummary import summary
     from thop.profile import profile
-    resnet = ResNet(block = Bottleneck, blocks = [3, 4, 6, 3], extras = [512, 256, 128, 64], se = False, cbam = False, fusion = False)
+    resnet = ResNet(block = Bottleneck, blocks = [3, 4, 6, 3], extras = [512, 256, 64, 64], se = False, cbam = False, fusion = False)
     summary(resnet, (3, 300, 300))
     print(resnet)
     #device = torch.device('cpu')

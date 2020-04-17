@@ -116,6 +116,12 @@ def vgg(cfg, pretrained=True):
 if __name__ == '__main__':
     import torch
     from torchsummary import summary
-    vgg = nn.ModuleList(add_vgg(vgg_base['300']))
-    vgg =vgg.to(torch.device('cpu'))
-    print(vgg)
+    from ssd.config import cfg
+    from thop.profile import profile
+    cfg.merge_from_file("../../../configs/512.yaml")
+    model = VGG(cfg)
+    device = torch.device('cpu')
+    inputs = torch.randn((1, 3, 512, 512)).to(device)
+    total_ops, total_params = profile(model, (inputs,), verbose=False)
+    print("%.2f | %.2f" % (total_params / (1000 ** 2), total_ops / (1000 ** 3)))
+    print()
