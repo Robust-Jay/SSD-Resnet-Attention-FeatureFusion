@@ -14,12 +14,8 @@ setup(
         "yacs==0.1.6",
         "Vizer~=0.1.4",
     ],
-    author="Congcong Li",
-    author_email="luffy.lcc@gmail.com",
-    description="High quality, fast, modular reference implementation of SSD in PyTorch",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/lufficc/SSD",
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",

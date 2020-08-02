@@ -2,7 +2,7 @@ import os
 
 
 class DatasetCatalog:
-    DATA_DIR = 'datasets/defect'
+    DATA_DIR = 'datasets'
     DATASETS = {
         'voc_2007_train': {
             "data_dir": "VOC2007",
@@ -51,14 +51,6 @@ class DatasetCatalog:
         'coco_2014_val': {
             "data_dir": "val2014",
             "ann_file": "annotations/instances_val2014.json"
-        },
-        'coco_2019_train': {
-            "data_dir": "images/train",
-            "ann_file": "annotations/instances_defect_train2019.json"
-        },
-        'coco_2019_val': {
-            "data_dir": "images/val",
-            "ann_file": "annotations/instances_defect_test2019.json"
         },
     }
 
