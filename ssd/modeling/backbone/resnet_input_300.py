@@ -332,7 +332,7 @@ class ResNet(nn.Module):
             x = self.layer1(x)
 
             x = self.layer2(x)
-            features.append(self.conv2(x))
+            features.append(x)
 
             x = self.layer3(x)
             features.append(x)
