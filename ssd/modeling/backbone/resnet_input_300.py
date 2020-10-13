@@ -438,7 +438,7 @@ if __name__ == '__main__':
     from torchsummary import summary
     # resnet = ResNet(block = Bottleneck, blocks = [3, 4, 6, 3], extras = [128, 256, 512, 256, 128, 64, 64],
     #                 se = False, cbam=False, ff=True)
-    resnet = ResNet(block=Bottleneck, blocks=[3, 4, 6, 3], extras=[512, 256, 64, 64],
+    resnet = ResNet(block=Bottleneck, blocks=[3, 4, 6, 3], extras=[256, 128, 64, 64],
                     se=False, cbam=False, ff=False)
 
     summary(resnet.to('cuda'), (3, 300, 300))
